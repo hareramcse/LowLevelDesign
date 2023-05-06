@@ -1,0 +1,6 @@
+<Vehicle>
+	<Car>Car</Car>
+	<Truck>Truck</Truck>
+	<CarRate>2</CarRate>
+	<TruckRate>1.5</TruckRate>
+</Vehicle>
