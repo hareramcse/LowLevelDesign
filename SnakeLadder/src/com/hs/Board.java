@@ -4,66 +4,67 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Board {
 
-    Cell[][] cells;
+	Cell[][] cells;
 
-    Board(int boardSize, int numberOfSnakes, int numberOfLadders) {
+	Board(int boardSize, int numberOfSnakes, int numberOfLadders) {
 
-        initializeCells(boardSize);
-        addSnakesLadders(cells, numberOfSnakes, numberOfLadders);
-    }
+		initializeCells(boardSize);
+		addSnakesLadders(cells, numberOfSnakes, numberOfLadders);
+	}
 
-    private void initializeCells(int boardSize) {
+	private void initializeCells(int boardSize) {
 
-        cells = new Cell[boardSize][boardSize];
+		cells = new Cell[boardSize][boardSize];
 
-        for(int i=0;i<boardSize;i++) {
-            for(int j=0; j<boardSize;j++) {
-                Cell cellObj = new Cell();
-                cells[i][j] = cellObj;
-            }
-        }
-    }
-    private void addSnakesLadders(Cell[][] cells, int numberOfSnakes, int numberOfLadders){
+		for (int i = 0; i < boardSize; i++) {
+			for (int j = 0; j < boardSize; j++) {
+				Cell cellObj = new Cell();
+				cells[i][j] = cellObj;
+			}
+		}
+	}
 
-        while(numberOfSnakes > 0) {
-           int snakeHead = ThreadLocalRandom.current().nextInt(1,cells.length*cells.length-1);
-           int snakeTail = ThreadLocalRandom.current().nextInt(1,cells.length*cells.length-1);
-           if(snakeTail >= snakeHead) {
-               continue;
-           }
+	private void addSnakesLadders(Cell[][] cells, int numberOfSnakes, int numberOfLadders) {
 
-           Jump snakeObj = new Jump();
-           snakeObj.start = snakeHead;
-           snakeObj.end = snakeTail;
+		while (numberOfSnakes > 0) {
+			int snakeHead = ThreadLocalRandom.current().nextInt(1, cells.length * cells.length - 1);
+			int snakeTail = ThreadLocalRandom.current().nextInt(1, cells.length * cells.length - 1);
+			if (snakeTail >= snakeHead) {
+				continue;
+			}
 
-           Cell cell = getCell(snakeHead);
-           cell.jump = snakeObj;
+			Jump snakeObj = new Jump();
+			snakeObj.start = snakeHead;
+			snakeObj.end = snakeTail;
 
-            numberOfSnakes--;
-        }
+			Cell cell = getCell(snakeHead);
+			cell.jump = snakeObj;
 
-        while(numberOfLadders > 0) {
-            int ladderStart = ThreadLocalRandom.current().nextInt(1,cells.length*cells.length-1);
-            int ladderEnd = ThreadLocalRandom.current().nextInt(1,cells.length*cells.length-1);
-            if(ladderStart >= ladderEnd) {
-                continue;
-            }
+			numberOfSnakes--;
+		}
 
-            Jump ladderObj = new Jump();
-            ladderObj.start = ladderStart;
-            ladderObj.end = ladderEnd;
+		while (numberOfLadders > 0) {
+			int ladderStart = ThreadLocalRandom.current().nextInt(1, cells.length * cells.length - 1);
+			int ladderEnd = ThreadLocalRandom.current().nextInt(1, cells.length * cells.length - 1);
+			if (ladderStart >= ladderEnd) {
+				continue;
+			}
 
-            Cell cell = getCell(ladderStart);
-            cell.jump = ladderObj;
+			Jump ladderObj = new Jump();
+			ladderObj.start = ladderStart;
+			ladderObj.end = ladderEnd;
 
-            numberOfLadders--;
-        }
+			Cell cell = getCell(ladderStart);
+			cell.jump = ladderObj;
 
-    }
+			numberOfLadders--;
+		}
 
-    Cell getCell(int playerPosition) {
-        int boardRow = playerPosition / cells.length;
-        int boardColumn = (playerPosition % cells.length);
-        return cells[boardRow][boardColumn];
-    }
+	}
+
+	Cell getCell(int playerPosition) {
+		int boardRow = playerPosition / cells.length;
+		int boardColumn = (playerPosition % cells.length);
+		return cells[boardRow][boardColumn];
+	}
 }

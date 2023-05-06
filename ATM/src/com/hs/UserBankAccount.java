@@ -2,9 +2,9 @@ package com.hs;
 
 public class UserBankAccount {
 
-    int balance;
+	int balance;
 
-    public void withdrawalBalance(int amount) {
-        balance = balance - amount;
-    }
+	public void withdrawalBalance(int amount) {
+		balance = balance - amount;
+	}
 }

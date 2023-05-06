@@ -4,25 +4,25 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Dice {
 
-    int diceCount;
-    int min = 1;
-    int max =6;
+	int diceCount;
+	int min = 1;
+	int max = 6;
 
-    public Dice(int diceCount){
-        this.diceCount = diceCount;
-    }
+	public Dice(int diceCount) {
+		this.diceCount = diceCount;
+	}
 
-    public int rollDice(){
+	public int rollDice() {
 
-        int totalSum=0;
-        int diceUsed=0;
+		int totalSum = 0;
+		int diceUsed = 0;
 
-        while(diceUsed<diceCount){
+		while (diceUsed < diceCount) {
 
-            totalSum += ThreadLocalRandom.current().nextInt(min,max+1);
-            diceUsed++;
-        }
+			totalSum += ThreadLocalRandom.current().nextInt(min, max + 1);
+			diceUsed++;
+		}
 
-        return totalSum;
-    }
+		return totalSum;
+	}
 }

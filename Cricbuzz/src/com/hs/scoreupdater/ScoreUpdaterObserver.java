@@ -4,5 +4,5 @@ import com.hs.inning.BallDetails;
 
 public interface ScoreUpdaterObserver {
 
-    public void update(BallDetails ballDetails);
+	public void update(BallDetails ballDetails);
 }

@@ -2,13 +2,12 @@ package com.hs;
 
 public enum TransactionType {
 
-    CASH_WITHDRAWAL,
-    BALANCE_CHECK;
+	CASH_WITHDRAWAL, BALANCE_CHECK;
 
-    public static void showAllTransactionTypes(){
+	public static void showAllTransactionTypes() {
 
-        for(TransactionType type: TransactionType.values()){
-            System.out.println(type.name());
-        }
-    }
+		for (TransactionType type : TransactionType.values()) {
+			System.out.println(type.name());
+		}
+	}
 }

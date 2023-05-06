@@ -2,8 +2,5 @@ package com.hs;
 
 public enum ReservationStatus {
 
-    SCHEDULED,
-    INPROGRESS,
-    COMPLETED,
-    CANCELLED;
+	SCHEDULED, INPROGRESS, COMPLETED, CANCELLED;
 }

@@ -1,8 +1,8 @@
 package com.hs;
 
 public class Jump {
-    int start;
-    int end;
+	int start;
+	int end;
 
-    //getters and setters
+	// getters and setters
 }

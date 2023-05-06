@@ -6,18 +6,18 @@ import com.hs.product.Vehicle;
 
 public class VehicleInventoryManagement {
 
-    List<Vehicle> vehicles;
+	List<Vehicle> vehicles;
 
-    VehicleInventoryManagement(List<Vehicle> vehicles) {
-        this.vehicles = vehicles;
-    }
+	VehicleInventoryManagement(List<Vehicle> vehicles) {
+		this.vehicles = vehicles;
+	}
 
-    public List<Vehicle> getVehicles() {
-        //filtering
-        return vehicles;
-    }
+	public List<Vehicle> getVehicles() {
+		// filtering
+		return vehicles;
+	}
 
-    public void setVehicles(List<Vehicle> vehicles) {
-        this.vehicles = vehicles;
-    }
+	public void setVehicles(List<Vehicle> vehicles) {
+		this.vehicles = vehicles;
+	}
 }

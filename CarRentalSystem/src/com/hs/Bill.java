@@ -2,19 +2,19 @@ package com.hs;
 
 public class Bill {
 
-    Reservation reservation;
-    double totalBillAmount;
-    boolean isBillPaid;
+	Reservation reservation;
+	double totalBillAmount;
+	boolean isBillPaid;
 
-    Bill(Reservation reservation) {
-        this.reservation = reservation;
-        this.totalBillAmount = computeBillAmount();
-        isBillPaid = false;
-    }
+	Bill(Reservation reservation) {
+		this.reservation = reservation;
+		this.totalBillAmount = computeBillAmount();
+		isBillPaid = false;
+	}
 
-    private double computeBillAmount(){
+	private double computeBillAmount() {
 
-        return 100.0;
-    }
+		return 100.0;
+	}
 
 }
