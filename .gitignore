@@ -39,6 +39,8 @@ local.properties
 .recommenders
 .springBeans
 .gradle
+.classpath
+.project
 
 # System Files
 .DS_Store

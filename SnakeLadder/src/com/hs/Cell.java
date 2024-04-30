@@ -1,6 +1,13 @@
 package com.hs;
 
 public class Cell {
-	Jump jump;
-	// getters and setters
+	private Jump jump;
+
+	public void setJump(Jump jump) {
+		this.jump = jump;
+	}
+
+	public Jump getJump() {
+		return jump;
+	}
 }

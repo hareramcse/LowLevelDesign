@@ -3,10 +3,9 @@ package com.hs;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Dice {
-
-	int diceCount;
-	int min = 1;
-	int max = 6;
+	private int diceCount;
+	private int min = 1;
+	private int max = 6;
 
 	public Dice(int diceCount) {
 		this.diceCount = diceCount;
@@ -18,7 +17,6 @@ public class Dice {
 		int diceUsed = 0;
 
 		while (diceUsed < diceCount) {
-
 			totalSum += ThreadLocalRandom.current().nextInt(min, max + 1);
 			diceUsed++;
 		}
