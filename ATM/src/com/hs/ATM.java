@@ -1,32 +1,27 @@
 package com.hs;
 
 import com.hs.states.ATMState;
-import com.hs.states.IdleState;
 
 public class ATM {
-
-	private static ATM atmObject = new ATM(); // Singleton: eager initialization
-
-	ATMState currentATMState;
-
 	private int atmBalance;
-	int noOfTwoThousandNotes;
-	int noOfFiveHundredNotes;
-	int noOfOneHundredNotes;
+	private int noOfTwoThousandNotes;
+	private int noOfFiveHundredNotes;
+	private int noOfOneHundredNotes;
+	private ATMState currentState;
+	private static ATM atmObject = new ATM(); // Singleton: eager initialization
 
 	private ATM() {
 	}
 
-	public void setCurrentATMState(ATMState currentATMState) {
-		this.currentATMState = currentATMState;
+	public void setCurrentState(ATMState currentState) {
+		this.currentState = currentState;
 	}
 
-	public ATMState getCurrentATMState() {
-		return currentATMState;
+	public ATMState getCurrentState() {
+		return currentState;
 	}
 
 	public static ATM getATMObject() {
-		atmObject.setCurrentATMState(new IdleState());
 		return atmObject;
 	}
 
@@ -75,6 +70,5 @@ public class ATM {
 		System.out.println("2kNotes: " + noOfTwoThousandNotes);
 		System.out.println("500Notes: " + noOfFiveHundredNotes);
 		System.out.println("100Notes: " + noOfOneHundredNotes);
-
 	}
 }

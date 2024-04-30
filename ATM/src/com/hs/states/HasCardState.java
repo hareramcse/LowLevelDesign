@@ -4,17 +4,19 @@ import com.hs.ATM;
 import com.hs.Card;
 
 public class HasCardState extends ATMState {
-
+	private ATM atm;
+	
 	public HasCardState() {
+		atm = ATM.getATMObject();
 		System.out.println("enter your card pin number");
 	}
 
 	@Override
-	public void authenticatePin(ATM atm, Card card, int pin) {
+	public void authenticatePin(Card card, int pin) {
 		boolean isCorrectPinEntered = card.isCorrectPINEntered(pin);
 
 		if (isCorrectPinEntered) {
-			atm.setCurrentATMState(new SelectOperationState());
+			atm.setCurrentState(new SelectOperationState());
 		} else {
 			System.out.println("Invalid PIN Number");
 			exit(atm);
@@ -24,7 +26,7 @@ public class HasCardState extends ATMState {
 	@Override
 	public void exit(ATM atm) {
 		returnCard();
-		atm.setCurrentATMState(new IdleState());
+		atm.setCurrentState(new IdleState());
 		System.out.println("Exit happens");
 	}
 

@@ -4,20 +4,22 @@ import com.hs.ATM;
 import com.hs.Card;
 
 public class CheckBalanceState extends ATMState {
+	private ATM atm;
 
 	public CheckBalanceState() {
+		atm = ATM.getATMObject();
 	}
 
 	@Override
-	public void displayBalance(ATM atm, Card card) {
+	public void displayBalance(Card card) {
 		System.out.println("Your Balance is: " + card.getBankBalance());
 		exit(atm);
 	}
 
 	@Override
-	public void exit(ATM atmObject) {
+	public void exit(ATM atm) {
 		returnCard();
-		atmObject.setCurrentATMState(new IdleState());
+		atm.setCurrentState(new IdleState());
 		System.out.println("Exit happens");
 	}
 

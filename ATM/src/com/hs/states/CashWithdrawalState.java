@@ -2,49 +2,54 @@ package com.hs.states;
 
 import com.hs.ATM;
 import com.hs.Card;
-import com.hs.amountwithdrawal.CashWithdrawProcessor;
-import com.hs.amountwithdrawal.FiveHundredWithdrawProcessor;
-import com.hs.amountwithdrawal.OneHundredWithdrawProcessor;
-import com.hs.amountwithdrawal.TwoThousandWithdrawProcessor;
+import com.hs.amountwithdrawal.DispenseChain;
+import com.hs.amountwithdrawal.Dollar100Dispenser;
+import com.hs.amountwithdrawal.Dollar500Dispenser;
+import com.hs.amountwithdrawal.Dollar2000Dispenser;
 
 public class CashWithdrawalState extends ATMState {
+	private ATM atm;
 
 	public CashWithdrawalState() {
+		atm = ATM.getATMObject();
 		System.out.println("Please enter the Withdrawal Amount");
 	}
 
-	public void cashWithdrawal(ATM atmObject, Card card, int withdrawalAmountRequest) {
-
-		if (atmObject.getAtmBalance() < withdrawalAmountRequest) {
+	public void cashWithdrawal(Card card, int withdrawalAmountRequest) {
+		System.out.println("Request to withdraw amount " + withdrawalAmountRequest);
+		if (atm.getAtmBalance() < withdrawalAmountRequest) {
 			System.out.println("Insufficient fund in the ATM Machine");
-			exit(atmObject);
+			exit(atm);
 		} else if (card.getBankBalance() < withdrawalAmountRequest) {
 			System.out.println("Insufficient fund in the your Bank Account");
-			exit(atmObject);
+			exit(atm);
 		} else {
-
 			card.deductBankBalance(withdrawalAmountRequest);
-			atmObject.deductATMBalance(withdrawalAmountRequest);
+			atm.deductATMBalance(withdrawalAmountRequest);
 
-			// using chain of responsibility for this logic, how many 2k Rs notes, how many
-			// 500 Rs notes etc, has to be withdrawal
-			CashWithdrawProcessor withdrawProcessor = new TwoThousandWithdrawProcessor(
-					new FiveHundredWithdrawProcessor(new OneHundredWithdrawProcessor(null)));
+			DispenseChain chain1 = new Dollar2000Dispenser();
+			DispenseChain chain2 = new Dollar500Dispenser();
+			DispenseChain chain3 = new Dollar100Dispenser();
 
-			withdrawProcessor.withdraw(atmObject, withdrawalAmountRequest);
-			exit(atmObject);
+			// set the chain of responsibility
+			chain1.setNextChain(chain2);
+			chain2.setNextChain(chain3);
+
+			chain1.withdraw(withdrawalAmountRequest);
+			exit(atm);
 		}
 	}
 
 	@Override
 	public void exit(ATM atmObject) {
 		returnCard();
-		atmObject.setCurrentATMState(new IdleState());
+		atmObject.setCurrentState(new IdleState());
 		System.out.println("Exit happens");
 	}
 
 	@Override
 	public void returnCard() {
+		System.out.println("Withdrawal is successfull");
 		System.out.println("Please collect your card");
 	}
 }
