@@ -1,22 +1,11 @@
 package com.hs.impl;
 
-import java.util.List;
-
-import com.hs.CellPosition;
 import com.hs.service.Piece;
 
-public class Bishop extends Piece {
+public class Bishop implements Piece {
 
-	public boolean move(CellPosition fromPosition, CellPosition toPosition) {
-		return false;
+	@Override
+	public void move(int newRow, int newCol) {
+		System.out.println("Moving Bishop to " + newRow + "," + newCol);
 	}
-
-	public List<CellPosition> possibleMoves(CellPosition fromPosition) {
-		return null;
-	}
-
-	public boolean validate(CellPosition fromPosition, CellPosition toPosition) {
-		return false;
-	}
-
 }
