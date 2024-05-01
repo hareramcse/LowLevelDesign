@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
-
-	public int size;
-	public PlayingPiece[][] board;
+	private int size;
+	private PlayingPiece[][] board;
 
 	public Board(int size) {
 		this.size = size;
@@ -24,7 +23,6 @@ public class Board {
 
 	public List<Pair> getFreeCells() {
 		List<Pair> freeCells = new ArrayList<>();
-
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
 				if (board[i][j] == null) {
@@ -33,16 +31,14 @@ public class Board {
 				}
 			}
 		}
-
 		return freeCells;
 	}
 
 	public void printBoard() {
-
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
 				if (board[i][j] != null) {
-					System.out.print(board[i][j].pieceType.name() + "   ");
+					System.out.print(board[i][j].getPieceType().name() + "   ");
 				} else {
 					System.out.print("    ");
 
@@ -50,7 +46,22 @@ public class Board {
 				System.out.print(" | ");
 			}
 			System.out.println();
-
 		}
+	}
+
+	public int getSize() {
+		return size;
+	}
+
+	public void setSize(int size) {
+		this.size = size;
+	}
+
+	public PlayingPiece[][] getBoard() {
+		return board;
+	}
+
+	public void setBoard(PlayingPiece[][] board) {
+		this.board = board;
 	}
 }

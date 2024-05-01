@@ -1,11 +1,11 @@
 package com.hs.Model;
 
 public class Pair {
-	public int i;
-	public int j;
+	public int row;
+	public int col;
 
-	Pair(int i, int j) {
-		this.i = i;
-		this.j = j;
+	Pair(int row, int col) {
+		this.row = row;
+		this.col = col;
 	}
 }

@@ -1,9 +1,8 @@
 package com.hs.Model;
 
 public class Player {
-
-	public String name;
-	public PlayingPiece playingPiece;
+	private String name;
+	private PlayingPiece playingPiece;
 
 	public Player(String name, PlayingPiece playingPiece) {
 		this.name = name;
