@@ -3,7 +3,6 @@ package com.hs;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class Booking implements Subject {
 	private String bookingId;
@@ -15,8 +14,8 @@ public class Booking implements Subject {
 	private Payment payment;
 	private List<Observer> observers = new ArrayList<Observer>();
 
-	public Booking(String bookingId, User user, Movie movie, Theater theater, LocalDateTime showTime,
-			List<Seat> seats) {
+	public Booking(String bookingId, User user, Movie movie, Theater theater, List<Seat> seats,
+			LocalDateTime showTime) {
 		this.bookingId = bookingId;
 		this.user = user;
 		this.movie = movie;
@@ -88,32 +87,6 @@ public class Booking implements Subject {
 				+ ", payment=" + payment.getPaymentId() + "]";
 	}
 
-	public boolean bookSeats(List<Seat> selectedSeats) {
-		// Step 1: Check Seat Availability
-		List<Seat> availableSeats = theater.getAvailableSeats();
-		for (Seat seat : availableSeats) {
-			if (seat.isBooked()) {
-				System.out.println("Seat " + seat.getSeatId() + " is already booked.");
-				return false;
-			} else {
-				for (Seat selectedSeat : selectedSeats) {
-					if (seat.getSeatId().equals(selectedSeat.getSeatId())) {
-						seat.setBooked(true);
-					}
-				}
-			}
-		}
-		return true;
-	}
-
-	public double calculateTotalPrice(List<Seat> selectedSeats) {
-		// Placeholder method for calculating total price
-		double basePricePerSeat = 10.0; // Assume base price per seat is $10
-		double totalPrice = selectedSeats.size() * basePricePerSeat;
-		// Additional logic for taxes, discounts, etc. can be added here
-		return totalPrice;
-	}
-
 	@Override
 	public void registerObserver(Observer observer) {
 		observers.add(observer);
@@ -124,10 +97,5 @@ public class Booking implements Subject {
 		for (Observer observer : observers) {
 			observer.update(message);
 		}
-	}
-
-	public void makePayment(PaymentMethod paymentMethod, double amount) {
-		this.payment = new Payment(UUID.randomUUID().toString(), this, paymentMethod, amount);
-		notifyObservers("Payment successful");
 	}
 }

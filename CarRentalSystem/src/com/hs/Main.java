@@ -1,84 +1,36 @@
 package com.hs;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.hs.product.Car;
-import com.hs.product.Vehicle;
-import com.hs.product.VehicleType;
+import com.hs.payement.CreditCardPayment;
+import com.hs.payement.PaymentMethod;
+import com.hs.strategy.DailyRentalStrategy;
 
 public class Main {
+	public static void main(String[] args) {
+		// Create a rental system instance
+		RentalSystem rentalSystem = RentalSystem.getInstance();
 
-	public static void main(String args[]) {
+		// Add vehicles using factory methods
+		rentalSystem.addCar(1, "Toyota Camry", 50.0);
+		rentalSystem.addMotorcycle(2, "Honda CBR", 30.0);
 
-		List<User> users = addUsers();
-		List<Vehicle> vehicles = addVehicles();
-		List<Store> stores = addStores(vehicles);
+		// Add customers
+		Customer customer1 = new Customer(101, "John Doe", "123-456-7890");
+		rentalSystem.addCustomer(customer1);
 
-		VehicleRentalSystem rentalSystem = new VehicleRentalSystem(stores, users);
+		// Create payment methods
+		PaymentMethod creditCardPayment = new CreditCardPayment("1234 5678 9012 3456", "12/25", "123");
 
-		// 0. User comes
-		User user = users.get(0);
+		// Rent a vehicle with credit card payment
+		rentalSystem.rentVehicle(1, 101, 5, new DailyRentalStrategy(50.0), creditCardPayment);
 
-		// 1. user search store based on location
-		Location location = new Location(403012, "Bangalore", "Karnataka", "India");
-		Store store = rentalSystem.getStore(location);
+		// Display vehicle and customer information
+		rentalSystem.displayVehicleInformation();
+		rentalSystem.displayCustomerInformation();
 
-		// 2. get All vehicles you are interested in (based upon different filters)
-		List<Vehicle> storeVehicles = store.getVehicles(VehicleType.CAR);
+		// Return the vehicle
+		rentalSystem.returnVehicle(101);
 
-		// 3.reserving the particular vehicle
-		Reservation reservation = store.createReservation(storeVehicles.get(0), users.get(0));
-
-		// 4. generate the bill
-		Bill bill = new Bill(reservation);
-
-		// 5. make payment
-		Payment payment = new Payment();
-		payment.payBill(bill);
-
-		// 6. trip completed, submit the vehicle and close the reservation
-		store.completeReservation(reservation.reservationId);
-
+		// Display updated customer information
+		rentalSystem.displayCustomerInformation();
 	}
-
-	public static List<Vehicle> addVehicles() {
-
-		List<Vehicle> vehicles = new ArrayList<>();
-
-		Vehicle vehicle1 = new Car();
-		vehicle1.setVehicleID(1);
-		vehicle1.setVehicleType(VehicleType.CAR);
-
-		Vehicle vehicle2 = new Car();
-		vehicle1.setVehicleID(2);
-		vehicle1.setVehicleType(VehicleType.CAR);
-
-		vehicles.add(vehicle1);
-		vehicles.add(vehicle2);
-
-		return vehicles;
-	}
-
-	public static List<User> addUsers() {
-
-		List<User> users = new ArrayList<>();
-		User user1 = new User();
-		user1.setUserId(1);
-
-		users.add(user1);
-		return users;
-	}
-
-	public static List<Store> addStores(List<Vehicle> vehicles) {
-
-		List<Store> stores = new ArrayList<>();
-		Store store1 = new Store();
-		store1.storeId = 1;
-		store1.setVehicles(vehicles);
-
-		stores.add(store1);
-		return stores;
-	}
-
 }
