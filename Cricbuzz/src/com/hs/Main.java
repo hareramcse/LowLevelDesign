@@ -11,11 +11,8 @@ import com.hs.Team.Player.PlayerDetails;
 import com.hs.Team.Player.PlayerType;
 
 public class Main {
-
 	public static void main(String args[]) {
-
 		Main ob = new Main();
-
 		Team teamA = ob.addTeam("India");
 		Team teamB = ob.addTeam("SriLanka");
 
@@ -26,9 +23,7 @@ public class Main {
 	}
 
 	private Team addTeam(String name) {
-
 		Queue<PlayerDetails> playerDetails = new LinkedList<>();
-
 		PlayerDetails p1 = addPlayer(name + "1", PlayerType.ALLROUNDER);
 		PlayerDetails p2 = addPlayer(name + "2", PlayerType.ALLROUNDER);
 		PlayerDetails p3 = addPlayer(name + "3", PlayerType.ALLROUNDER);
@@ -61,7 +56,6 @@ public class Main {
 
 		Team team = new Team(name, playerDetails, new ArrayList<>(), bowlers);
 		return team;
-
 	}
 
 	private PlayerDetails addPlayer(String name, PlayerType playerType) {

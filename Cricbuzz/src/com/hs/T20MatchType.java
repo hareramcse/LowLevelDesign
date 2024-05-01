@@ -9,7 +9,7 @@ public class T20MatchType implements MatchType {
 
 	@Override
 	public int maxOverCountBowlers() {
-		return 5;
+		return 4;
 	}
 
 }

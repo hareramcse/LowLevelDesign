@@ -6,7 +6,6 @@ import com.hs.Team.Team;
 import com.hs.inning.InningDetails;
 
 public class Match {
-
 	Team teamA;
 	Team teamB;
 	Date matchDate;
@@ -38,7 +37,6 @@ public class Match {
 			Team battingTeam;
 
 			// assuming here that tossWinner batFirst
-			boolean isChasing = false;
 			if (inning == 1) {
 				battingTeam = tossWinner;
 				bowlingTeam = tossWinner.getTeamName().equals(teamA.getTeamName()) ? teamB : teamA;

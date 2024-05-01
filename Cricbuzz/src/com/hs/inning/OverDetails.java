@@ -26,10 +26,10 @@ public class OverDetails {
 
 			BallDetails ball = new BallDetails(ballCount);
 			ball.startBallDelivery(battingTeam, bowlingTeam, this);
-			if (ball.ballType == BallType.NORMAL) {
+			if (ball.getBallType() == BallType.NORMAL) {
 				balls.add(ball);
 				ballCount++;
-				if (ball.wicket != null) {
+				if (ball.getWicket() != null) {
 					battingTeam.chooseNextBatsMan();
 				}
 

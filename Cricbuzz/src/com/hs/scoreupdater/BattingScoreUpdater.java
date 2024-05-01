@@ -8,23 +8,23 @@ public class BattingScoreUpdater implements ScoreUpdaterObserver {
 	public void update(BallDetails ballDetails) {
 		int run = 0;
 
-		if (RunType.ONE == ballDetails.runType) {
+		if (RunType.ONE == ballDetails.getRunType()) {
 			run = 1;
-		} else if (RunType.TWO == ballDetails.runType) {
+		} else if (RunType.TWO == ballDetails.getRunType()) {
 			run = 2;
-		} else if (RunType.FOUR == ballDetails.runType) {
+		} else if (RunType.FOUR == ballDetails.getRunType()) {
 			run = 4;
-			ballDetails.playedBy.battingScoreCard.totalFours++;
-		} else if (RunType.SIX == ballDetails.runType) {
+			ballDetails.getPlayedBy().battingScoreCard.totalFours++;
+		} else if (RunType.SIX == ballDetails.getRunType()) {
 			run = 6;
-			ballDetails.playedBy.battingScoreCard.totalSix++;
+			ballDetails.getPlayedBy().battingScoreCard.totalSix++;
 		}
-		ballDetails.playedBy.battingScoreCard.totalRuns += run;
+		ballDetails.getPlayedBy().battingScoreCard.totalRuns += run;
 
-		ballDetails.playedBy.battingScoreCard.totalBallsPlayed++;
+		ballDetails.getPlayedBy().battingScoreCard.totalBallsPlayed++;
 
-		if (ballDetails.wicket != null) {
-			ballDetails.playedBy.battingScoreCard.wicketDetails = ballDetails.wicket;
+		if (ballDetails.getWicket() != null) {
+			ballDetails.getPlayedBy().battingScoreCard.wicketDetails = ballDetails.getWicket();
 		}
 	}
 }

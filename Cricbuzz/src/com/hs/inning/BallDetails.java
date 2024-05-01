@@ -12,13 +12,12 @@ import com.hs.scoreupdater.BowlingScoreUpdater;
 import com.hs.scoreupdater.ScoreUpdaterObserver;
 
 public class BallDetails {
-
-	public int ballNumber;
-	public BallType ballType;
-	public RunType runType;
-	public PlayerDetails playedBy;
-	public PlayerDetails bowledBy;
-	public Wicket wicket;
+	private int ballNumber;
+	private BallType ballType;
+	private RunType runType;
+	private PlayerDetails playedBy;
+	private PlayerDetails bowledBy;
+	private Wicket wicket;
 	List<ScoreUpdaterObserver> scoreUpdaterObserverList = new ArrayList<>();
 
 	public BallDetails(int ballNumber) {
@@ -64,8 +63,7 @@ public class BallDetails {
 		}
 	}
 
-	private RunType getRunType() {
-
+	public RunType getRunType() {
 		double val = Math.random();
 		if (val <= 0.2) {
 			return RunType.ONE;
@@ -85,6 +83,58 @@ public class BallDetails {
 		} else {
 			return false;
 		}
+	}
+
+	public int getBallNumber() {
+		return ballNumber;
+	}
+
+	public void setBallNumber(int ballNumber) {
+		this.ballNumber = ballNumber;
+	}
+
+	public BallType getBallType() {
+		return ballType;
+	}
+
+	public void setBallType(BallType ballType) {
+		this.ballType = ballType;
+	}
+
+	public PlayerDetails getPlayedBy() {
+		return playedBy;
+	}
+
+	public void setPlayedBy(PlayerDetails playedBy) {
+		this.playedBy = playedBy;
+	}
+
+	public PlayerDetails getBowledBy() {
+		return bowledBy;
+	}
+
+	public void setBowledBy(PlayerDetails bowledBy) {
+		this.bowledBy = bowledBy;
+	}
+
+	public Wicket getWicket() {
+		return wicket;
+	}
+
+	public void setWicket(Wicket wicket) {
+		this.wicket = wicket;
+	}
+
+	public List<ScoreUpdaterObserver> getScoreUpdaterObserverList() {
+		return scoreUpdaterObserverList;
+	}
+
+	public void setScoreUpdaterObserverList(List<ScoreUpdaterObserver> scoreUpdaterObserverList) {
+		this.scoreUpdaterObserverList = scoreUpdaterObserverList;
+	}
+
+	public void setRunType(RunType runType) {
+		this.runType = runType;
 	}
 
 }
