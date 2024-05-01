@@ -1,6 +1,6 @@
 package com.hs;
 
-class InventoryLogger implements InventoryObserver {
+public class InventoryLogger implements InventoryObserver {
     @Override
     public void update(Product product, int quantity) {
         if (quantity > 0) {
