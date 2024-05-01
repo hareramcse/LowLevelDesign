@@ -1,44 +1,35 @@
 package com.hs;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.hs.payment.PaymentStrategy;
 
-import com.hs.states.State;
-import com.hs.states.impl.IdleState;
+class VendingMachine {
+    private InventoryManager inventoryManager;
+    private PaymentStrategy paymentStrategy;
 
-public class VendingMachine {
+    public VendingMachine(InventoryManager inventoryManager, PaymentStrategy paymentStrategy) {
+        this.inventoryManager = inventoryManager;
+        this.paymentStrategy = paymentStrategy;
+        this.inventoryManager.registerObserver(new InventoryLogger());
+    }
 
-	private State vendingMachineState;
-	private Inventory inventory;
-	private List<Coin> coinList;
-
-	public VendingMachine() {
-		vendingMachineState = new IdleState();
-		inventory = new Inventory(10);
-		coinList = new ArrayList<>();
-	}
-
-	public State getVendingMachineState() {
-		return vendingMachineState;
-	}
-
-	public void setVendingMachineState(State vendingMachineState) {
-		this.vendingMachineState = vendingMachineState;
-	}
-
-	public Inventory getInventory() {
-		return inventory;
-	}
-
-	public void setInventory(Inventory inventory) {
-		this.inventory = inventory;
-	}
-
-	public List<Coin> getCoinList() {
-		return coinList;
-	}
-
-	public void setCoinList(List<Coin> coinList) {
-		this.coinList = coinList;
-	}
+    public void processPurchase(Product product, int quantity, double paymentAmount) {
+        int availableStock = inventoryManager.getStock(product);
+        if (availableStock >= quantity) {
+            double totalPrice = product.getPrice() * quantity;
+            if (paymentStrategy.pay(paymentAmount)) {
+                inventoryManager.removeProduct(product, quantity);
+                System.out.println("Dispensing " + quantity + " " + product.getName() + "s. Change: $" + (paymentAmount - totalPrice));
+            } else {
+                System.out.println("Payment processing failed. Transaction canceled.");
+            }
+        } else {
+            System.out.println("Insufficient stock for " + product.getName());
+        }
+    }
 }
+
+
+
+
+
+
