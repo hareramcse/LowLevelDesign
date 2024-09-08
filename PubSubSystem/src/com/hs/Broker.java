@@ -11,7 +11,7 @@ public class Broker {
 	}
 
 	public void createTopic(String topicName) {
-		topics.put(topicName, new ConcreteTopic(topicName));
+		topics.put(topicName, new Topic(topicName));
 	}
 
 	public void addSubscriberToTopic(Subscriber subscriber, String topicName) {
@@ -28,10 +28,10 @@ public class Broker {
 		}
 	}
 
-	public void publishMessageToTopic(Message message, String topicName) {
+	public void publish(Message message, String topicName) {
 		Topic topic = topics.get(topicName);
 		if (topic != null) {
-			topic.distributeMessage(message);
+			topic.publish(message);
 		}
 	}
 }

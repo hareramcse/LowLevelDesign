@@ -8,7 +8,7 @@ public class ConcretePublisher implements Publisher {
 	}
 
 	@Override
-	public void publishMessage(Message message, String topicName) {
-		broker.publishMessageToTopic(message, topicName);
+	public void publish(Message message, String topicName) {
+		broker.publish(message, topicName);
 	}
 }

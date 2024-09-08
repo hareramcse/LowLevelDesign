@@ -8,12 +8,7 @@ public class ConcreteSubscriber implements Subscriber {
 	}
 
 	@Override
-	public void subscribe(String topicName) {
-		System.out.println(name + " subscribed to topic: " + topicName);
-	}
-
-	@Override
-	public void receiveMessage(Message message) {
+	public void onMessage(Message message) {
 		System.out.println(name + " received message: " + message.getContent());
 	}
 }

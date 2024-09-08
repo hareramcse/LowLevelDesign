@@ -1,13 +1,21 @@
 package com.hs;
 
+import com.hs.logappender.FileAppender;
+
 public class Main {
-    public static void main(String[] args) {
-        LoggerFactory factory = new LoggerFactory();
-        Logger logger = factory.getLogger("console");
-        logger.log("This is an INFO message.");
-        
-        logger.setLogLevel(LogLevel.DEBUG);
-        logger.log("This is a DEBUG message.");
-        logger.log("This is an ERROR message.");
-    }
+	public static void main(String[] args) {
+		Logger logger = Logger.getInstance();
+
+		// Logging with default configuration
+		logger.info("This is an information message");
+		logger.warning("This is a warning message");
+		logger.error("This is an error message");
+
+		// Changing log level and appender
+		LoggerConfig config = new LoggerConfig(LogLevel.DEBUG, new FileAppender("app.log"));
+		logger.setConfig(config);
+
+		logger.debug("This is a debug message");
+		logger.info("This is an information message");
+	}
 }

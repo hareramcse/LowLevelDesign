@@ -17,7 +17,7 @@ public class Main {
 		Message message1 = new Message("Hello from Publisher");
 		Message message2 = new Message("Greetings, Subscribers!");
 
-		publisher.publishMessage(message1, "Technology");
-		publisher.publishMessage(message2, "Technology");
+		publisher.publish(message1, "Technology");
+		publisher.publish(message2, "Technology");
 	}
 }
