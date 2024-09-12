@@ -1,7 +1,5 @@
 package com.hs.impl;
 
-import com.hs.service.Piece;
-
 public class Queen implements Piece {
 
 	@Override

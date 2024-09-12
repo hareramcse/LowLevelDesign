@@ -1,6 +1,6 @@
 package com.hs;
 
-public class Main {
+public class PubSubTest {
 	public static void main(String[] args) {
 		Broker broker = new Broker();
 

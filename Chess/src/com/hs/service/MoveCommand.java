@@ -1,6 +1,7 @@
 package com.hs.service;
 
 import com.hs.Square;
+import com.hs.impl.Piece;
 
 public class MoveCommand implements Move {
 	private Piece piece;

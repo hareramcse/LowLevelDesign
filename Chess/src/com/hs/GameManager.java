@@ -15,6 +15,7 @@ public class GameManager {
 
 	void playMove(Move move) {
 		move.execute();
+		
 		// Switch players
 		Player temp = currentPlayer;
 		currentPlayer = opponent;

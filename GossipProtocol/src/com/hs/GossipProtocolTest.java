@@ -1,6 +1,6 @@
 package com.hs;
 
-public class Test {
+public class GossipProtocolTest {
 	public static void main(String[] args) {
         GossipProtocol protocol = GossipProtocol.getInstance();
 

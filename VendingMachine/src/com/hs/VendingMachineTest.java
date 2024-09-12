@@ -1,6 +1,6 @@
 package com.hs;
 
-public class VendingMachineDemo {
+public class VendingMachineTest {
     public static void run() {
         VendingMachine vendingMachine = VendingMachine.getInstance();
 

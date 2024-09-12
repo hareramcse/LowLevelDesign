@@ -2,7 +2,7 @@ package com.hs;
 
 import com.hs.logappender.FileAppender;
 
-public class Main {
+public class LoggingFrameworkTest {
 	public static void main(String[] args) {
 		Logger logger = Logger.getInstance();
 

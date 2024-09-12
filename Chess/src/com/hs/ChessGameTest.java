@@ -1,10 +1,10 @@
 package com.hs;
 
+import com.hs.impl.Piece;
 import com.hs.service.Move;
 import com.hs.service.MoveCommand;
-import com.hs.service.Piece;
 
-public class Main {
+public class ChessGameTest {
 	public static void main(String[] args) {
         Board board = Board.getInstance();
         Player player1 = new Player("Alice");

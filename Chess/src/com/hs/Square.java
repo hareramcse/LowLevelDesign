@@ -1,6 +1,6 @@
 package com.hs;
 
-import com.hs.service.Piece;
+import com.hs.impl.Piece;
 
 public class Square {
 	private Piece piece;

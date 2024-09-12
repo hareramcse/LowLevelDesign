@@ -1,6 +1,6 @@
 package com.hs;
 
-public class TrafficSignalSystemDemo {
+public class TrafficSignalSystemTest {
 	public static void main(String[] args) {
 		TrafficController trafficController = TrafficController.getInstance();
 

@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-public class Main {
+public class BookMyShowTest {
 	public static void main(String[] args) {
 		BookMyShow bookMyShow = BookMyShow.getInstance();
 

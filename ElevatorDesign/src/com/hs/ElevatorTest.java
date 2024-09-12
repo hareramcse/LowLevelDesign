@@ -1,6 +1,6 @@
 package com.hs;
 
-public class Main {
+public class ElevatorTest {
 	public static void main(String[] args) {
 		ElevatorSystem elevatorSystem = ElevatorSystem.getInstance();
 

@@ -28,19 +28,23 @@ public class Board {
 		squares[0][7].placePiece(factory.createPiece("Rook"));
 		squares[7][0].placePiece(factory.createPiece("Rook"));
 		squares[7][7].placePiece(factory.createPiece("Rook"));
+		
 		// Add Knights for both players
 		squares[0][1].placePiece(factory.createPiece("Knight"));
 		squares[0][6].placePiece(factory.createPiece("Knight"));
 		squares[7][1].placePiece(factory.createPiece("Knight"));
 		squares[7][6].placePiece(factory.createPiece("Knight"));
+		
 		// Add Bishops for both players
 		squares[0][2].placePiece(factory.createPiece("Bishop"));
 		squares[0][5].placePiece(factory.createPiece("Bishop"));
 		squares[7][2].placePiece(factory.createPiece("Bishop"));
 		squares[7][5].placePiece(factory.createPiece("Bishop"));
+		
 		// Add Queens
 		squares[0][3].placePiece(factory.createPiece("Queen"));
 		squares[7][3].placePiece(factory.createPiece("Queen"));
+		
 		// Add Kings
 		squares[0][4].placePiece(factory.createPiece("King"));
 		squares[7][4].placePiece(factory.createPiece("King"));

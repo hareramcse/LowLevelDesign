@@ -4,7 +4,7 @@ import com.hs.payement.CreditCardPayment;
 import com.hs.payement.PaymentMethod;
 import com.hs.strategy.DailyRentalStrategy;
 
-public class Main {
+public class CarRentalSystemTest {
 	public static void main(String[] args) {
 		// Create a rental system instance
 		RentalSystem rentalSystem = RentalSystem.getInstance();

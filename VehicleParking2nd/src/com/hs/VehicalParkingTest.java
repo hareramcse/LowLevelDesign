@@ -1,6 +1,6 @@
 package com.hs;
 
-public class Main {
+public class VehicalParkingTest {
     public static void main(String[] args) {
         ParkingSystem parkingSystem = ParkingSystem.getInstance(10); // Create a parking lot with 10 slots
         ParkingAttendant attendant = new ParkingAttendant(parkingSystem);

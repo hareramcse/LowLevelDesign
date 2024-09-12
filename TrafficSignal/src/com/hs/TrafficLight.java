@@ -19,6 +19,10 @@ public class TrafficLight {
 		System.out.println("Changing signal to " + newSignal);
 		currentSignal = newSignal;
 	}
+	
+	public String getId() {
+		return id;
+	}
 
 	public Signal getCurrentSignal() {
 		return currentSignal;

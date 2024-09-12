@@ -17,6 +17,10 @@ public class Road {
     public TrafficLight getTrafficLight() {
         return trafficLight;
     }
+    
+    public String getName() {
+		return name;
+	}
 
     public String getId() {
         return id;
