@@ -1,21 +1,17 @@
 package com.hs;
 
+import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class Inventory {
 	private Map<Product, Integer> products;
 
 	public Inventory() {
-		products = new ConcurrentHashMap<>();
+		products = new HashMap<>();
 	}
 
 	public void addProduct(Product product, int quantity) {
 		products.put(product, quantity);
-	}
-
-	public void removeProduct(Product product) {
-		products.remove(product);
 	}
 
 	public void updateQuantity(Product product, int quantity) {

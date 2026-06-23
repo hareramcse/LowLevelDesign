@@ -2,7 +2,7 @@ package com.hs;
 
 public class VendingMachine {
 	private static VendingMachine instance;
-	protected Inventory inventory;
+	final Inventory inventory = new Inventory();
 	private final VendingMachineState idleState;
 	private final VendingMachineState readyState;
 	private final VendingMachineState dispenseState;
@@ -12,14 +12,11 @@ public class VendingMachine {
 	private double totalPayment;
 
 	private VendingMachine() {
-		inventory = new Inventory();
 		idleState = new IdleState(this);
 		readyState = new ReadyState(this);
 		dispenseState = new DispenseState(this);
 		returnChangeState = new ReturnChangeState(this);
 		currentState = idleState;
-		selectedProduct = null;
-		totalPayment = 0.0;
 	}
 
 	public static synchronized VendingMachine getInstance() {
@@ -49,51 +46,51 @@ public class VendingMachine {
 		currentState.returnChange();
 	}
 
-	public void setState(VendingMachineState state) {
+	void setState(VendingMachineState state) {
 		currentState = state;
 	}
 
-	public VendingMachineState getIdleState() {
+	VendingMachineState getIdleState() {
 		return idleState;
 	}
 
-	public VendingMachineState getReadyState() {
+	VendingMachineState getReadyState() {
 		return readyState;
 	}
 
-	public VendingMachineState getDispenseState() {
+	VendingMachineState getDispenseState() {
 		return dispenseState;
 	}
 
-	public VendingMachineState getReturnChangeState() {
+	VendingMachineState getReturnChangeState() {
 		return returnChangeState;
 	}
 
-	public Product getSelectedProduct() {
+	Product getSelectedProduct() {
 		return selectedProduct;
 	}
 
-	public void setSelectedProduct(Product product) {
+	void setSelectedProduct(Product product) {
 		selectedProduct = product;
 	}
 
-	public void resetSelectedProduct() {
+	void resetSelectedProduct() {
 		selectedProduct = null;
 	}
 
-	public double getTotalPayment() {
+	double getTotalPayment() {
 		return totalPayment;
 	}
 
-	public void addCoin(Coin coin) {
+	void addCoin(Coin coin) {
 		totalPayment += coin.getValue();
 	}
 
-	public void addNote(Note note) {
+	void addNote(Note note) {
 		totalPayment += note.getValue();
 	}
 
-	public void resetPayment() {
+	void resetPayment() {
 		totalPayment = 0.0;
 	}
 }

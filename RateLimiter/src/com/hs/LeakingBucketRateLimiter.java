@@ -3,56 +3,37 @@ package com.hs;
 import java.time.Instant;
 
 public class LeakingBucketRateLimiter {
-	private final int capacity;
-	private double water;
-	private Instant lastLeakTime;
+    private final int capacity;
+    private final double leakRatePerSecond;
+    private double water;
+    private Instant lastLeak = Instant.now();
 
-	public LeakingBucketRateLimiter(int capacity, double leakRatePerSecond) {
-		this.capacity = capacity;
-		this.water = 0;
-		this.lastLeakTime = Instant.now();
-		setLeakRate(leakRatePerSecond);
-	}
+    public LeakingBucketRateLimiter(int capacity, double leakRatePerSecond) {
+        this.capacity = capacity;
+        this.leakRatePerSecond = leakRatePerSecond;
+        this.water = 0;
+    }
 
-	public synchronized boolean tryConsume(double waterToConsume) {
-		leak();
-		if (water + waterToConsume <= capacity) {
-			water += waterToConsume;
-			return true; // Water level within capacity, consume successful
-		}
-		return false; // Insufficient capacity
-	}
+    public synchronized boolean tryConsume(double amount) {
+        leak();
+        if (water + amount <= capacity) {
+            water += amount;
+            return true;
+        }
+        return false;
+    }
 
-	private void leak() {
-		Instant currentTime = Instant.now();
-		double elapsedTime = currentTime.minusMillis(lastLeakTime.toEpochMilli()).toEpochMilli() / 1000.0;
-		double leakedWater = elapsedTime * getLeakRate();
-		water = Math.max(0, water - leakedWater);
-		lastLeakTime = currentTime;
-	}
+    private void leak() {
+        Instant now = Instant.now();
+        double elapsed = (now.toEpochMilli() - lastLeak.toEpochMilli()) / 1000.0;
+        water = Math.max(0, water - elapsed * leakRatePerSecond);
+        lastLeak = now;
+    }
 
-	private double getLeakRate() {
-		return capacity / 10.0; // Example: Leak rate is 1/10th of the bucket capacity per second
-	}
-
-	private void setLeakRate(double leakRatePerSecond) {
-		if (leakRatePerSecond > 0) {
-			water = Math.min(capacity, water + leakRatePerSecond);
-		}
-	}
-
-	public static void main(String[] args) {
-		// 10 capacity, leak rate of 0.5 units/second
-		LeakingBucketRateLimiter limiter = new LeakingBucketRateLimiter(10, 0.5);
-
-		// Try adding water
-		for (int i = 0; i < 15; i++) {
-			boolean result = limiter.tryConsume(1.0);
-			if (result) {
-				System.out.println("Water added successfully");
-			} else {
-				System.out.println("Water addition failed: Bucket overflow");
-			}
-		}
-	}
+    public static void main(String[] args) {
+        LeakingBucketRateLimiter limiter = new LeakingBucketRateLimiter(10, 0.5);
+        for (int i = 0; i < 15; i++) {
+            System.out.println(limiter.tryConsume(1) ? "Allowed" : "Denied");
+        }
+    }
 }

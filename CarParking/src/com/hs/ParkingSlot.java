@@ -1,41 +1,23 @@
 package com.hs;
 
 public class ParkingSlot {
-    private int slotNumber;
-    private boolean available;
-    private boolean occupied; // Track if slot is currently occupied
-    private int size; // Size of the slot in terms of vehicle size it can accommodate
+	private final int slotNumber;
+	private boolean occupied;
 
-    public ParkingSlot(int slotNumber, int size) {
-        this.slotNumber = slotNumber;
-        this.available = true;
-        this.occupied = false;
-        this.size = size;
-    }
+	public ParkingSlot(int slotNumber) {
+		this.slotNumber = slotNumber;
+	}
 
-    public int getSlotNumber() {
-        return slotNumber;
-    }
+	public boolean isOccupied() {
+		return occupied;
+	}
 
-    public boolean isAvailable() {
-        return available;
-    }
-
-    public boolean isOccupied() {
-        return occupied;
-    }
-
-    public void setOccupied(boolean occupied) {
-        this.occupied = occupied;
-    }
-
-    public int getSize() {
-        return size;
-    }
+	public void setOccupied(boolean occupied) {
+		this.occupied = occupied;
+	}
 
 	@Override
 	public String toString() {
 		return "ParkingSlot [slotNumber=" + slotNumber + "]";
 	}
-    
 }

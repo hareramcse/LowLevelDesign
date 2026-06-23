@@ -1,5 +1,5 @@
 package com.hs;
 
 public enum LogLevel {
-    DEBUG, INFO, WARNING, ERROR, FATAL
+    DEBUG, INFO, WARNING, ERROR
 }

@@ -5,18 +5,16 @@ import com.hs.Card;
 import com.hs.TransactionType;
 
 public class SelectOperationState extends ATMState {
-	private ATM atm;
+	private final ATM atm = ATM.getATMObject();
 
 	public SelectOperationState() {
-		atm = ATM.getATMObject();
-		showOperations();
+		System.out.println("Please select the Operation");
+		TransactionType.showAllTransactionTypes();
 	}
 
 	@Override
 	public void selectOperation(Card card, TransactionType txnType) {
-
 		switch (txnType) {
-
 		case CASH_WITHDRAWAL:
 			System.out.println("Selected operation is withdrawal");
 			atm.setCurrentState(new CashWithdrawalState());
@@ -24,28 +22,14 @@ public class SelectOperationState extends ATMState {
 		case BALANCE_CHECK:
 			atm.setCurrentState(new CheckBalanceState());
 			break;
-		default: {
+		default:
 			System.out.println("Invalid Option");
-			exit(atm);
-		}
-
+			returnToIdle(atm);
 		}
 	}
 
 	@Override
 	public void exit(ATM atm) {
-		returnCard();
-		atm.setCurrentState(new IdleState());
-		System.out.println("Exit happens");
-	}
-
-	@Override
-	public void returnCard() {
-		System.out.println("Please collect your card");
-	}
-
-	private void showOperations() {
-		System.out.println("Please select the Operation");
-		TransactionType.showAllTransactionTypes();
+		returnToIdle(atm);
 	}
 }

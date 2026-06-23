@@ -1,5 +1,3 @@
 package com.hs;
 
-public enum Signal {
-	RED, YELLOW, GREEN
-}
+public enum Signal { RED, YELLOW, GREEN }

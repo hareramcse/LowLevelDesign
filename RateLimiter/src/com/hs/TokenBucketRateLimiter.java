@@ -3,46 +3,37 @@ package com.hs;
 import java.time.Instant;
 
 public class TokenBucketRateLimiter {
-	private final int capacity;
-	private double tokens;
-	private Instant lastRefillTime;
+    private final int capacity;
+    private final double refillRatePerSecond;
+    private double tokens;
+    private Instant lastRefill = Instant.now();
 
-	public TokenBucketRateLimiter(int capacity, double refillRatePerSecond) {
-		this.capacity = capacity;
-		this.tokens = capacity;
-		this.lastRefillTime = Instant.now();
-		refill(refillRatePerSecond);
-	}
+    public TokenBucketRateLimiter(int capacity, double refillRatePerSecond) {
+        this.capacity = capacity;
+        this.refillRatePerSecond = refillRatePerSecond;
+        this.tokens = capacity;
+    }
 
-	public synchronized boolean tryConsume(double tokensToConsume) {
-		refill(1.0); // Refill the bucket before consuming tokens
-		if (tokens >= tokensToConsume) {
-			tokens -= tokensToConsume;
-			return true; // Tokens available, consume successful
-		}
-		return false; // Insufficient tokens
-	}
+    public synchronized boolean tryConsume(double amount) {
+        refill();
+        if (tokens >= amount) {
+            tokens -= amount;
+            return true;
+        }
+        return false;
+    }
 
-	private void refill(double refillRatePerSecond) {
-		Instant currentTime = Instant.now();
-		double elapsedTime = currentTime.minusMillis(lastRefillTime.toEpochMilli()).toEpochMilli() / 1000.0;
-		double tokensToAdd = elapsedTime * refillRatePerSecond;
-		tokens = Math.min(capacity, tokens + tokensToAdd);
-		lastRefillTime = currentTime;
-	}
+    private void refill() {
+        Instant now = Instant.now();
+        double elapsed = (now.toEpochMilli() - lastRefill.toEpochMilli()) / 1000.0;
+        tokens = Math.min(capacity, tokens + elapsed * refillRatePerSecond);
+        lastRefill = now;
+    }
 
-	public static void main(String[] args) {
-		// 10 tokens, refill rate of 0.5 tokens/second
-		TokenBucketRateLimiter limiter = new TokenBucketRateLimiter(10, 0.5); 
-		
-		// Try consuming tokens
-		for (int i = 0; i < 15; i++) {
-			boolean result = limiter.tryConsume(1.0);
-			if (result) {
-				System.out.println("Token consumed successfully");
-			} else {
-				System.out.println("Token consumption failed: Rate limit exceeded");
-			}
-		}
-	}
+    public static void main(String[] args) {
+        TokenBucketRateLimiter limiter = new TokenBucketRateLimiter(10, 0.5);
+        for (int i = 0; i < 15; i++) {
+            System.out.println(limiter.tryConsume(1) ? "Allowed" : "Denied");
+        }
+    }
 }

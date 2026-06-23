@@ -1,40 +1,38 @@
 package com.hs;
 
-class IdleState implements VendingMachineState {
-	private VendingMachine vendingMachine;
-
-	public IdleState(VendingMachine vendingMachine) {
-		this.vendingMachine = vendingMachine;
+class IdleState extends VendingMachineState {
+	IdleState(VendingMachine vm) {
+		super(vm);
 	}
 
 	@Override
 	public void selectProduct(Product product) {
-		if (vendingMachine.inventory.isAvailable(product)) {
-			vendingMachine.setSelectedProduct(product);
-			vendingMachine.setState(vendingMachine.getReadyState());
-			System.out.println("Product selected: " + product.getName());
-		} else {
-			System.out.println("Product not available: " + product.getName());
+		if (!vm.inventory.isAvailable(product)) {
+			reject("Product not available: " + product.getName());
+			return;
 		}
+		vm.setSelectedProduct(product);
+		vm.setState(vm.getReadyState());
+		System.out.println("Product selected: " + product.getName());
 	}
 
 	@Override
 	public void insertCoin(Coin coin) {
-		System.out.println("Please select a product first.");
+		reject("Please select a product first.");
 	}
 
 	@Override
 	public void insertNote(Note note) {
-		System.out.println("Please select a product first.");
+		reject("Please select a product first.");
 	}
 
 	@Override
 	public void dispenseProduct() {
-		System.out.println("Please select a product and make payment.");
+		reject("Please select a product and make payment.");
 	}
 
 	@Override
 	public void returnChange() {
-		System.out.println("No change to return.");
+		reject("No change to return.");
 	}
 }

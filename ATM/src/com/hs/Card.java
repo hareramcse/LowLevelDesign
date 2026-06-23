@@ -1,15 +1,15 @@
 package com.hs;
 
 public class Card {
-	private int cardNumber;
-	private int PIN_NUMBER = 112211;
-	private BankAccount bankAccount;
+	private static final int PIN = 112211;
+	private final BankAccount bankAccount;
+
+	public Card(BankAccount bankAccount) {
+		this.bankAccount = bankAccount;
+	}
 
 	public boolean isCorrectPINEntered(int pin) {
-		if (pin == PIN_NUMBER) {
-			return true;
-		}
-		return false;
+		return pin == PIN;
 	}
 
 	public int getBankBalance() {
@@ -17,31 +17,6 @@ public class Card {
 	}
 
 	public void deductBankBalance(int amount) {
-		bankAccount.withdrawalBalance(amount);
+		bankAccount.withdraw(amount);
 	}
-
-	public void setBankAccount(BankAccount bankAccount) {
-		this.bankAccount = bankAccount;
-	}
-
-	public int getCardNumber() {
-		return cardNumber;
-	}
-
-	public void setCardNumber(int cardNumber) {
-		this.cardNumber = cardNumber;
-	}
-
-	public int getPIN_NUMBER() {
-		return PIN_NUMBER;
-	}
-
-	public void setPIN_NUMBER(int pIN_NUMBER) {
-		PIN_NUMBER = pIN_NUMBER;
-	}
-
-	public BankAccount getBankAccount() {
-		return bankAccount;
-	}
-
 }

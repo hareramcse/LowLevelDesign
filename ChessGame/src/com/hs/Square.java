@@ -1,11 +1,9 @@
 package com.hs;
 
-import com.hs.impl.Piece;
-
 public class Square {
 	private Piece piece;
-	private int row;
-	private int col;
+	private final int row;
+	private final int col;
 
 	public Square(int row, int col) {
 		this.row = row;

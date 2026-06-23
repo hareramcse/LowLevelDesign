@@ -1,34 +1,32 @@
 package com.hs;
 
 public class GossipProtocolTest {
-	public static void main(String[] args) {
-        GossipProtocol protocol = GossipProtocol.getInstance();
+    public static void main(String[] args) {
+        GossipProtocol protocol = new GossipProtocol();
 
-        Node node1 = new Node("Node1");
-        Node node2 = new Node("Node2");
-        Node node3 = new Node("Node3");
-        Node node4 = new Node("Node4");
-        Node node5 = new Node("Node5");
+        Node n1 = new Node("Node1");
+        Node n2 = new Node("Node2");
+        Node n3 = new Node("Node3");
+        Node n4 = new Node("Node4");
+        Node n5 = new Node("Node5");
 
-        protocol.addNode(node1);
-        protocol.addNode(node2);
-        protocol.addNode(node3);
-        protocol.addNode(node4);
-        protocol.addNode(node5);
+        protocol.addNode(n1);
+        protocol.addNode(n2);
+        protocol.addNode(n3);
+        protocol.addNode(n4);
+        protocol.addNode(n5);
 
-        protocol.connectNodes(node1, node2);
-        protocol.connectNodes(node2, node3);
-        protocol.connectNodes(node3, node4);
-        protocol.connectNodes(node4, node5);
-        protocol.connectNodes(node5, node1);
+        protocol.connectNodes(n1, n2);
+        protocol.connectNodes(n2, n3);
+        protocol.connectNodes(n3, n4);
+        protocol.connectNodes(n4, n5);
+        protocol.connectNodes(n5, n1);
 
-        GossipMessage initialMessage = new GossipMessage("Hello World");
-        protocol.spreadGossip(node1, initialMessage);
+        protocol.spreadGossip(n1, new GossipMessage("Hello World"));
 
-        for (int i = 0; i < 5; i++) {
-            System.out.println("Running gossip cycle " + (i + 1));
+        for (int i = 0; i < 3; i++) {
+            System.out.println("Gossip cycle " + (i + 1));
             protocol.runGossipCycle();
         }
     }
-
 }

@@ -21,35 +21,29 @@ public class InningDetails {
 	}
 
 	public void start(int runsToWin) {
-
-		// set batting players
 		try {
 			battingTeam.chooseNextBatsMan();
 		} catch (Exception e) {
-
 		}
 
 		int noOfOvers = matchType.noOfOvers();
 		for (int overNumber = 1; overNumber <= noOfOvers; overNumber++) {
-
-			// chooseBowler
 			bowlingTeam.chooseNextBowler(matchType.maxOverCountBowlers());
 
-			OverDetails over = new OverDetails(overNumber, bowlingTeam.getCurrentBowler());
+			OverDetails over = new OverDetails(overNumber, bowlingTeam.currentBowler);
 			overs.add(over);
 			try {
 				boolean won = over.startOver(battingTeam, bowlingTeam, runsToWin);
-				if (won == true) {
+				if (won) {
 					break;
 				}
 			} catch (Exception e) {
 				break;
 			}
 
-			// swap striket and non striker
-			PlayerDetails temp = battingTeam.getStriker();
-			battingTeam.setStriker(battingTeam.getNonStriker());
-			battingTeam.setNonStriker(temp);
+			PlayerDetails temp = battingTeam.striker;
+			battingTeam.striker = battingTeam.nonStriker;
+			battingTeam.nonStriker = temp;
 		}
 	}
 

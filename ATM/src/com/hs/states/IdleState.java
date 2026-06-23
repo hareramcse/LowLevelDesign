@@ -4,11 +4,7 @@ import com.hs.ATM;
 import com.hs.Card;
 
 public class IdleState extends ATMState {
-	private ATM atm;
-	
-	public IdleState() {
-		atm = ATM.getATMObject();
-	}
+	private final ATM atm = ATM.getATMObject();
 
 	@Override
 	public void insertCard(Card card) {

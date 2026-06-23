@@ -53,18 +53,6 @@ public class ATM {
 		atmBalance = atmBalance - amount;
 	}
 
-	public void deductTwoThousandNotes(int number) {
-		noOfTwoThousandNotes = noOfTwoThousandNotes - number;
-	}
-
-	public void deductFiveHundredNotes(int number) {
-		noOfFiveHundredNotes = noOfFiveHundredNotes - number;
-	}
-
-	public void deductOneHundredNotes(int number) {
-		noOfOneHundredNotes = noOfOneHundredNotes - number;
-	}
-
 	public void printCurrentATMStatus() {
 		System.out.println("Balance: " + atmBalance);
 		System.out.println("2kNotes: " + noOfTwoThousandNotes);

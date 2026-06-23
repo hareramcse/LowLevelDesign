@@ -1,53 +1,43 @@
 package com.hs;
 
-import com.hs.impl.PieceFactory;
-
 public class Board {
-	private static Board instance = new Board();
-	private Square[][] squares;
+	private static final Board instance = new Board();
+	private final Square[][] squares = new Square[8][8];
 
 	private Board() {
-		squares = new Square[8][8];
-		initializeBoard();
-	}
-
-	private void initializeBoard() {
-		PieceFactory factory = new PieceFactory();
 		for (int row = 0; row < 8; row++) {
 			for (int col = 0; col < 8; col++) {
 				squares[row][col] = new Square(row, col);
 			}
 		}
-		// Add Pawns for both players
+		setupPieces();
+	}
+
+	private void setupPieces() {
 		for (int col = 0; col < 8; col++) {
-			squares[1][col].placePiece(factory.createPiece("Pawn"));
-			squares[6][col].placePiece(factory.createPiece("Pawn"));
+			squares[1][col].placePiece(PieceType.PAWN.create());
+			squares[6][col].placePiece(PieceType.PAWN.create());
 		}
-		// Add Rooks for both players
-		squares[0][0].placePiece(factory.createPiece("Rook"));
-		squares[0][7].placePiece(factory.createPiece("Rook"));
-		squares[7][0].placePiece(factory.createPiece("Rook"));
-		squares[7][7].placePiece(factory.createPiece("Rook"));
-		
-		// Add Knights for both players
-		squares[0][1].placePiece(factory.createPiece("Knight"));
-		squares[0][6].placePiece(factory.createPiece("Knight"));
-		squares[7][1].placePiece(factory.createPiece("Knight"));
-		squares[7][6].placePiece(factory.createPiece("Knight"));
-		
-		// Add Bishops for both players
-		squares[0][2].placePiece(factory.createPiece("Bishop"));
-		squares[0][5].placePiece(factory.createPiece("Bishop"));
-		squares[7][2].placePiece(factory.createPiece("Bishop"));
-		squares[7][5].placePiece(factory.createPiece("Bishop"));
-		
-		// Add Queens
-		squares[0][3].placePiece(factory.createPiece("Queen"));
-		squares[7][3].placePiece(factory.createPiece("Queen"));
-		
-		// Add Kings
-		squares[0][4].placePiece(factory.createPiece("King"));
-		squares[7][4].placePiece(factory.createPiece("King"));
+		place(PieceType.ROOK, 0, 0);
+		place(PieceType.ROOK, 0, 7);
+		place(PieceType.ROOK, 7, 0);
+		place(PieceType.ROOK, 7, 7);
+		place(PieceType.KNIGHT, 0, 1);
+		place(PieceType.KNIGHT, 0, 6);
+		place(PieceType.KNIGHT, 7, 1);
+		place(PieceType.KNIGHT, 7, 6);
+		place(PieceType.BISHOP, 0, 2);
+		place(PieceType.BISHOP, 0, 5);
+		place(PieceType.BISHOP, 7, 2);
+		place(PieceType.BISHOP, 7, 5);
+		place(PieceType.QUEEN, 0, 3);
+		place(PieceType.QUEEN, 7, 3);
+		place(PieceType.KING, 0, 4);
+		place(PieceType.KING, 7, 4);
+	}
+
+	private void place(PieceType type, int row, int col) {
+		squares[row][col].placePiece(type.create());
 	}
 
 	public static Board getInstance() {

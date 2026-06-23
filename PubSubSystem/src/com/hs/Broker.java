@@ -21,13 +21,6 @@ public class Broker {
 		}
 	}
 
-	public void removeSubscriberFromTopic(Subscriber subscriber, String topicName) {
-		Topic topic = topics.get(topicName);
-		if (topic != null) {
-			topic.removeSubscriber(subscriber);
-		}
-	}
-
 	public void publish(Message message, String topicName) {
 		Topic topic = topics.get(topicName);
 		if (topic != null) {

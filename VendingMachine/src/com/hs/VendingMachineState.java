@@ -1,13 +1,39 @@
 package com.hs;
 
-public interface VendingMachineState {
-	void selectProduct(Product product);
+public abstract class VendingMachineState {
+	protected final VendingMachine vm;
 
-	void insertCoin(Coin coin);
+	protected VendingMachineState(VendingMachine vm) {
+		this.vm = vm;
+	}
 
-	void insertNote(Note note);
+	protected void returnToIdle() {
+		vm.resetPayment();
+		vm.resetSelectedProduct();
+		vm.setState(vm.getIdleState());
+	}
 
-	void dispenseProduct();
+	protected void reject(String message) {
+		System.out.println(message);
+	}
 
-	void returnChange();
+	public void selectProduct(Product product) {
+		reject("Invalid action in current state.");
+	}
+
+	public void insertCoin(Coin coin) {
+		reject("Invalid action in current state.");
+	}
+
+	public void insertNote(Note note) {
+		reject("Invalid action in current state.");
+	}
+
+	public void dispenseProduct() {
+		reject("Invalid action in current state.");
+	}
+
+	public void returnChange() {
+		reject("Invalid action in current state.");
+	}
 }

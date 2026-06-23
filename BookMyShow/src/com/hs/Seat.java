@@ -1,8 +1,8 @@
 package com.hs;
 
 public class Seat {
-	private String seatId;
-	private SeatType seatType;
+	private final String seatId;
+	private final SeatType seatType;
 	private boolean isBooked;
 
 	public Seat(String seatId, SeatType seatType, boolean isBooked) {
@@ -13,18 +13,6 @@ public class Seat {
 
 	public String getSeatId() {
 		return seatId;
-	}
-
-	public void setSeatId(String seatId) {
-		this.seatId = seatId;
-	}
-
-	public SeatType getSeatType() {
-		return seatType;
-	}
-
-	public void setSeatType(SeatType seatType) {
-		this.seatType = seatType;
 	}
 
 	public boolean isBooked() {
@@ -39,5 +27,4 @@ public class Seat {
 	public String toString() {
 		return "Seat [seatId=" + seatId + ", seatType=" + seatType.name() + ", isBooked=" + isBooked + "]";
 	}
-
 }

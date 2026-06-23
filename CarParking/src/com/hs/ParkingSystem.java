@@ -8,13 +8,13 @@ import java.util.Map;
 
 public class ParkingSystem {
 	private static ParkingSystem instance;
-	private List<ParkingSlot> slots;
-	private Map<String, ParkingTicket> ticketMap;
+	private final List<ParkingSlot> slots = new ArrayList<>();
+	private final Map<String, ParkingTicket> ticketMap = new HashMap<>();
 
 	private ParkingSystem(int numSlots) {
-		slots = new ArrayList<>();
-		ticketMap = new HashMap<>();
-		initializeSlots(numSlots);
+		for (int i = 1; i <= numSlots; i++) {
+			slots.add(new ParkingSlot(i));
+		}
 	}
 
 	public static ParkingSystem getInstance(int numSlots) {
@@ -24,50 +24,37 @@ public class ParkingSystem {
 		return instance;
 	}
 
-	private void initializeSlots(int numSlots) {
-		for (int i = 1; i <= numSlots; i++) {
-			slots.add(new ParkingSlot(i, 1)); // Initialize all slots to accommodate one-slot vehicles initially
-		}
-	}
-
 	public ParkingTicket parkVehicle(Vehicle vehicle) {
-		List<ParkingSlot> availableSlots = findAvailableSlots(vehicle.getSize());
-		System.out.println("Available slots for vehicle " + vehicle.getLicensePlate() + ": " + availableSlots.size());
-		if (!availableSlots.isEmpty()) {
-			for (ParkingSlot slot : availableSlots) {
-				slot.setOccupied(true);
-			}
-			ParkingTicket ticket = ParkingTicketFactory.createTicket(vehicle, availableSlots);
-			ticketMap.put(vehicle.getLicensePlate(), ticket);
-			return ticket;
+		List<ParkingSlot> availableSlots = findAvailableSlots(vehicle.size());
+		System.out.println("Available slots for vehicle " + vehicle.licensePlate() + ": " + availableSlots.size());
+		if (availableSlots.isEmpty()) {
+			return null;
 		}
-		return null; // No available slots
+		availableSlots.forEach(slot -> slot.setOccupied(true));
+		ParkingTicket ticket = new ParkingTicket(vehicle, availableSlots);
+		ticketMap.put(vehicle.licensePlate(), ticket);
+		return ticket;
 	}
 
 	public Vehicle retrieveVehicle(String licensePlate) {
-		ParkingTicket ticket = ticketMap.get(licensePlate);
-		if (ticket != null) {
-			for (ParkingSlot slot : ticket.getParkingSlots()) {
-				slot.setOccupied(false);
-			}
-			ticketMap.remove(licensePlate);
-			return ticket.getVehicle();
+		ParkingTicket ticket = ticketMap.remove(licensePlate);
+		if (ticket == null) {
+			return null;
 		}
-		return null; // Vehicle not found
+		ticket.getParkingSlots().forEach(slot -> slot.setOccupied(false));
+		return ticket.getVehicle();
 	}
 
 	private List<ParkingSlot> findAvailableSlots(int requiredSize) {
 		List<ParkingSlot> availableSlots = new ArrayList<>();
-		int count = 0;
 		for (ParkingSlot slot : slots) {
 			if (!slot.isOccupied()) {
 				availableSlots.add(slot);
-				count++;
-				if (count >= requiredSize) {
-					break;
+				if (availableSlots.size() >= requiredSize) {
+					return availableSlots;
 				}
 			}
 		}
-		return availableSlots.size() >= requiredSize ? availableSlots : Collections.emptyList();
+		return Collections.emptyList();
 	}
 }

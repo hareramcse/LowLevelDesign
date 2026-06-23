@@ -1,48 +1,34 @@
 package com.hs;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TrafficController {
-	private static TrafficController instance;
-	private Map<String, Road> roads;
+    private final List<Road> roads = new ArrayList<>();
 
-	private TrafficController() {
-		roads = new HashMap<>();
-	}
+    public void addRoad(Road road) {
+        roads.add(road);
+    }
 
-	public static synchronized TrafficController getInstance() {
-		if (instance == null) {
-			instance = new TrafficController();
-		}
-		return instance;
-	}
+    public void startTrafficControl() {
+        for (Road road : roads) {
+            TrafficLight light = road.trafficLight();
+            new Thread(() -> runCycle(light)).start();
+        }
+    }
 
-	public void addRoad(Road road) {
-		roads.put(road.getId(), road);
-	}
-
-	public void removeRoad(String roadId) {
-		roads.remove(roadId);
-	}
-
-	public void startTrafficControl() {
-		for (Road road : roads.values()) {
-			TrafficLight trafficLight = road.getTrafficLight();
-			new Thread(() -> {
-				while (true) {
-					try {
-						Thread.sleep(trafficLight.getRedDuration());
-						trafficLight.changeSignal(Signal.GREEN);
-						Thread.sleep(trafficLight.getGreenDuration());
-						trafficLight.changeSignal(Signal.YELLOW);
-						Thread.sleep(trafficLight.getYellowDuration());
-						trafficLight.changeSignal(Signal.RED);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-			}).start();
-		}
-	}
+    private void runCycle(TrafficLight light) {
+        try {
+            while (true) {
+                Thread.sleep(light.redDuration());
+                light.changeSignal(Signal.GREEN);
+                Thread.sleep(light.greenDuration());
+                light.changeSignal(Signal.YELLOW);
+                Thread.sleep(light.yellowDuration());
+                light.changeSignal(Signal.RED);
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
 }

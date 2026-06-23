@@ -1,73 +1,45 @@
 package com.hs;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class ElevatorSystem {
-    private List<Elevator> elevators;
-    private Queue<Request> requestQueue;
-    private int currentFloor;
-    
-    private static ElevatorSystem instance;
-
-    private ElevatorSystem() {
-        this.elevators = new ArrayList<>();
-        this.currentFloor = 0;
-        this.requestQueue = new PriorityQueue<>();
-    }
-
-    public static synchronized ElevatorSystem getInstance() {
-        if (instance == null) {
-            instance = new ElevatorSystem();
-        }
-        return instance;
-    }
-
-    public int getCurrentFloor() {
-        return currentFloor;
-    }
+    private final List<Elevator> elevators = new ArrayList<>();
+    private final Queue<Request> requests = new LinkedList<>();
 
     public void addElevator(Elevator elevator) {
-        this.elevators.add(elevator);
+        elevators.add(elevator);
     }
 
     public void requestElevator(int floor, Direction direction) {
-        Request request = new Request(floor, direction);
-        requestQueue.add(request);
+        requests.add(new Request(floor, direction));
         processRequests();
     }
 
     private void processRequests() {
-        while (!requestQueue.isEmpty()) {
-            Request request = requestQueue.poll();
-            Elevator selectedElevator = selectElevator(request.getFloor(), request.getDirection());
-            if (selectedElevator != null) {
-                selectedElevator.moveElevator(request.getFloor());
+        while (!requests.isEmpty()) {
+            Request request = requests.poll();
+            Elevator elevator = selectElevator(request.floor(), request.direction());
+            if (elevator != null) {
+                elevator.moveTo(request.floor());
             }
         }
     }
 
     private Elevator selectElevator(int floor, Direction direction) {
-        Elevator selectedElevator = null;
+        Elevator best = null;
         int minDistance = Integer.MAX_VALUE;
-
         for (Elevator elevator : elevators) {
-            if ((elevator.getCurrentDirection() == direction || elevator.getCurrentDirection() == Direction.STOPPED)
-                    && elevator.isAvailable()) {
-                int distance = Math.abs(elevator.getCurrentFloor() - floor);
+            if (elevator.direction() == direction || elevator.direction() == Direction.STOPPED) {
+                int distance = Math.abs(elevator.currentFloor() - floor);
                 if (distance < minDistance) {
                     minDistance = distance;
-                    selectedElevator = elevator;
+                    best = elevator;
                 }
             }
         }
-
-        return selectedElevator;
-    }
-
-    public void elevatorArrived(Elevator elevator) {
-        elevator.setAvailable(true);
+        return best;
     }
 }

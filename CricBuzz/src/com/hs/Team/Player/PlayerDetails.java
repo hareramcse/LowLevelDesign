@@ -5,29 +5,28 @@ import com.hs.Team.Player.Score.BowlingScoreCard;
 
 public class PlayerDetails {
 
-	public Person person;
+	public String name;
 	public PlayerType playerType;
 	public BattingScoreCard battingScoreCard;
 	public BowlingScoreCard bowlingScoreCard;
 
-	public PlayerDetails(Person person, PlayerType playerType) {
-		this.person = person;
+	public PlayerDetails(String name, PlayerType playerType) {
+		this.name = name;
 		this.playerType = playerType;
 		battingScoreCard = new BattingScoreCard();
 		bowlingScoreCard = new BowlingScoreCard();
 	}
 
 	public void printBattingScoreCard() {
-
-		System.out.println("PlayerName: " + person.name + " -- totalRuns: " + battingScoreCard.totalRuns
+		System.out.println("PlayerName: " + name + " -- totalRuns: " + battingScoreCard.totalRuns
 				+ " -- totalBallsPlayed: " + battingScoreCard.totalBallsPlayed + " -- 4s: "
 				+ battingScoreCard.totalFours + " -- 6s: " + battingScoreCard.totalSix + " -- outby: "
-				+ ((battingScoreCard.wicketDetails != null) ? battingScoreCard.wicketDetails.takenBy.person.name
+				+ ((battingScoreCard.wicketDetails != null) ? battingScoreCard.wicketDetails.takenBy.name
 						: "notout"));
 	}
 
 	public void printBowlingScoreCard() {
-		System.out.println("PlayerName: " + person.name + " -- totalOversThrown: " + bowlingScoreCard.totalOversCount
+		System.out.println("PlayerName: " + name + " -- totalOversThrown: " + bowlingScoreCard.totalOversCount
 				+ " -- totalRunsGiven: " + bowlingScoreCard.runsGiven + " -- WicketsTaken: "
 				+ bowlingScoreCard.wicketsTaken);
 	}

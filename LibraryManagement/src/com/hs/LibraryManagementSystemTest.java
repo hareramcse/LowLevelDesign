@@ -1,32 +1,22 @@
 package com.hs;
 
-import java.util.List;
-
 public class LibraryManagementSystemTest {
-    public static void run() {
-        LibraryManager libraryManager = LibraryManager.getInstance();
+    public static void main(String[] args) {
+        LibraryManager library = new LibraryManager();
 
-        // Add books to the catalog
-        libraryManager.addBook(new Book("ISBN1", "Book 1", "Author 1", 2020));
-        libraryManager.addBook(new Book("ISBN2", "Book 2", "Author 2", 2019));
-        libraryManager.addBook(new Book("ISBN3", "Book 3", "Author 3", 2021));
+        library.addBook(new Book("ISBN1", "Book 1", "Author 1"));
+        library.addBook(new Book("ISBN2", "Book 2", "Author 2"));
+        library.addBook(new Book("ISBN3", "Book 3", "Author 3"));
 
-        // Register members
-        libraryManager.registerMember(new Member("M1", "John Doe", "john@example.com"));
-        libraryManager.registerMember(new Member("M2", "Jane Smith", "jane@example.com"));
+        library.registerMember(new Member("M1", "John Doe"));
+        library.registerMember(new Member("M2", "Jane Smith"));
 
-        // Borrow books
-        libraryManager.borrowBook("M1", "ISBN1");
-        libraryManager.borrowBook("M2", "ISBN2");
+        library.borrowBook("M1", "ISBN1");
+        library.borrowBook("M2", "ISBN2");
+        library.returnBook("M1", "ISBN1");
 
-        // Return books
-        libraryManager.returnBook("M1", "ISBN1");
-
-        // Search books
-        List<Book> searchResults = libraryManager.searchBooks("Book");
         System.out.println("Search Results:");
-        for (Book book : searchResults) {
-            System.out.println(book.getTitle() + " by " + book.getAuthor());
-        }
+        library.searchBooks("Book").forEach(b ->
+                System.out.println(b.title() + " by " + b.author()));
     }
 }

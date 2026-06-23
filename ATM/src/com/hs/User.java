@@ -1,22 +1,13 @@
 package com.hs;
 
 public class User {
-	private Card card;
-	private BankAccount bankAccount;
+	private final Card card;
 
-	public Card getCard() {
-		return card;
-	}
-
-	public void setCard(Card card) {
+	public User(Card card) {
 		this.card = card;
 	}
 
-	public void setBankAccount(BankAccount bankAccount) {
-		this.bankAccount = bankAccount;
-	}
-
-	public BankAccount getBankAccount() {
-		return bankAccount;
+	public Card getCard() {
+		return card;
 	}
 }

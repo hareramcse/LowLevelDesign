@@ -4,7 +4,13 @@ import com.hs.ATM;
 import com.hs.Card;
 import com.hs.TransactionType;
 
+/** State pattern: each ATM screen is a state with allowed actions. */
 public abstract class ATMState {
+	protected void returnToIdle(ATM atm) {
+		System.out.println("Please collect your card");
+		atm.setCurrentState(new IdleState());
+		System.out.println("Exit happens");
+	}
 
 	public void insertCard(Card card) {
 		System.out.println("OOPS!! Something went wrong");

@@ -20,16 +20,14 @@ public class OverDetails {
 	}
 
 	public boolean startOver(Team battingTeam, Team bowlingTeam, int runsToWin) throws Exception {
-
 		int ballCount = 1;
 		while (ballCount <= 6) {
-
 			BallDetails ball = new BallDetails(ballCount);
 			ball.startBallDelivery(battingTeam, bowlingTeam, this);
-			if (ball.getBallType() == BallType.NORMAL) {
+			if (ball.ballType == BallType.NORMAL) {
 				balls.add(ball);
 				ballCount++;
-				if (ball.getWicket() != null) {
+				if (ball.wicket != null) {
 					battingTeam.chooseNextBatsMan();
 				}
 
@@ -41,8 +39,6 @@ public class OverDetails {
 				extraBallsCount++;
 			}
 		}
-
 		return false;
 	}
-
 }

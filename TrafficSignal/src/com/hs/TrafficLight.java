@@ -1,54 +1,24 @@
 package com.hs;
 
 public class TrafficLight {
-	private final String id;
-	private Signal currentSignal;
-	private int redDuration;
-	private int yellowDuration;
-	private int greenDuration;
+    private final String id;
+    private final int redDuration;
+    private final int yellowDuration;
+    private final int greenDuration;
 
-	public TrafficLight(String id, int redDuration, int yellowDuration, int greenDuration) {
-		this.id = id;
-		this.redDuration = redDuration;
-		this.yellowDuration = yellowDuration;
-		this.greenDuration = greenDuration;
-		this.currentSignal = Signal.RED;
-	}
+    public TrafficLight(String id, int redDuration, int yellowDuration, int greenDuration) {
+        this.id = id;
+        this.redDuration = redDuration;
+        this.yellowDuration = yellowDuration;
+        this.greenDuration = greenDuration;
+    }
 
-	public synchronized void changeSignal(Signal newSignal) {
-		System.out.println("Changing signal to " + newSignal);
-		currentSignal = newSignal;
-	}
-	
-	public String getId() {
-		return id;
-	}
+    public String id() { return id; }
+    public int redDuration() { return redDuration; }
+    public int yellowDuration() { return yellowDuration; }
+    public int greenDuration() { return greenDuration; }
 
-	public Signal getCurrentSignal() {
-		return currentSignal;
-	}
-
-	public int getRedDuration() {
-		return redDuration;
-	}
-
-	public void setRedDuration(int redDuration) {
-		this.redDuration = redDuration;
-	}
-
-	public int getYellowDuration() {
-		return yellowDuration;
-	}
-
-	public void setYellowDuration(int yellowDuration) {
-		this.yellowDuration = yellowDuration;
-	}
-
-	public int getGreenDuration() {
-		return greenDuration;
-	}
-
-	public void setGreenDuration(int greenDuration) {
-		this.greenDuration = greenDuration;
-	}
+    public synchronized void changeSignal(Signal signal) {
+        System.out.println(id + " -> " + signal);
+    }
 }

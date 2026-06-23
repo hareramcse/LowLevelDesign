@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Queue;
 
 import com.hs.Team.Team;
-import com.hs.Team.Player.Person;
 import com.hs.Team.Player.PlayerDetails;
 import com.hs.Team.Player.PlayerType;
 
@@ -17,9 +16,8 @@ public class Main {
 		Team teamB = ob.addTeam("SriLanka");
 
 		MatchType matchType = new T20MatchType();
-		Match match = new Match(teamA, teamB, null, "SMS STADIUM", matchType);
+		Match match = new Match(teamA, teamB, matchType);
 		match.startMatch();
-
 	}
 
 	private Team addTeam(String name) {
@@ -59,10 +57,6 @@ public class Main {
 	}
 
 	private PlayerDetails addPlayer(String name, PlayerType playerType) {
-
-		Person person = new Person();
-		person.name = name;
-		PlayerDetails playerDetails = new PlayerDetails(person, playerType);
-		return playerDetails;
+		return new PlayerDetails(name, playerType);
 	}
 }

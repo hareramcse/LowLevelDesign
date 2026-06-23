@@ -1,9 +1,7 @@
 package com.hs;
 
-import com.hs.service.Move;
-
 public class GameManager {
-	private Board board;
+	private final Board board;
 	private Player currentPlayer;
 	private Player opponent;
 
@@ -15,38 +13,18 @@ public class GameManager {
 
 	void playMove(Move move) {
 		move.execute();
-		
-		// Switch players
 		Player temp = currentPlayer;
 		currentPlayer = opponent;
 		opponent = temp;
 	}
 
 	void printBoard() {
-		// Print the current board state
-	}
-
-	public Board getBoard() {
-		return board;
-	}
-
-	public void setBoard(Board board) {
-		this.board = board;
-	}
-
-	public Player getCurrentPlayer() {
-		return currentPlayer;
-	}
-
-	public void setCurrentPlayer(Player currentPlayer) {
-		this.currentPlayer = currentPlayer;
-	}
-
-	public Player getOpponent() {
-		return opponent;
-	}
-
-	public void setOpponent(Player opponent) {
-		this.opponent = opponent;
+		for (int row = 0; row < 8; row++) {
+			for (int col = 0; col < 8; col++) {
+				Piece piece = board.getSquare(row, col).getPiece();
+				System.out.print(piece == null ? ". " : piece.getType().name().charAt(0) + " ");
+			}
+			System.out.println();
+		}
 	}
 }

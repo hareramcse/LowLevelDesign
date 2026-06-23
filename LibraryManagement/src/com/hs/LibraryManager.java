@@ -1,89 +1,53 @@
 package com.hs;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class LibraryManager {
-    private static LibraryManager instance;
-    private final Map<String, Book> catalog;
-    private final Map<String, Member> members;
-    private final int MAX_BOOKS_PER_MEMBER = 5;
-
-    private LibraryManager() {
-        catalog = new ConcurrentHashMap<>();
-        members = new ConcurrentHashMap<>();
-    }
-
-    public static synchronized LibraryManager getInstance() {
-        if (instance == null) {
-            instance = new LibraryManager();
-        }
-        return instance;
-    }
+    private final Map<String, Book> catalog = new HashMap<>();
+    private final Map<String, Member> members = new HashMap<>();
+    private static final int MAX_BOOKS = 5;
 
     public void addBook(Book book) {
-        catalog.put(book.getIsbn(), book);
-    }
-
-    public void removeBook(String isbn) {
-        catalog.remove(isbn);
-    }
-
-    public Book getBook(String isbn) {
-        return catalog.get(isbn);
+        catalog.put(book.isbn(), book);
     }
 
     public void registerMember(Member member) {
-        members.put(member.getId(), member);
+        members.put(member.id(), member);
     }
 
-    public void unregisterMember(String memberId) {
-        members.remove(memberId);
-    }
-
-    public Member getMember(String memberId) {
-        return members.get(memberId);
-    }
-
-    public synchronized void borrowBook(String memberId, String isbn) {
-        Member member = getMember(memberId);
-        Book book = getBook(isbn);
-
-        if (member != null && book != null && book.isAvailable()) {
-            if (member.getBorrowedBooks().size() < MAX_BOOKS_PER_MEMBER) {
-                member.borrowBook(book);
-                book.setAvailable(false);
-                System.out.println("Book borrowed: " + book.getTitle() + " by " + member.getName());
-            } else {
-                System.out.println("Member " + member.getName() + " has reached the maximum number of borrowed books.");
-            }
-        } else {
-            System.out.println("Book or member not found, or book is not available.");
+    public void borrowBook(String memberId, String isbn) {
+        Member member = members.get(memberId);
+        Book book = catalog.get(isbn);
+        if (member == null || book == null || !book.isAvailable()) {
+            System.out.println("Cannot borrow book.");
+            return;
         }
+        if (member.borrowed().size() >= MAX_BOOKS) {
+            System.out.println(member.name() + " reached borrow limit.");
+            return;
+        }
+        member.borrowed().add(book);
+        book.setAvailable(false);
+        System.out.println("Borrowed: " + book.title() + " by " + member.name());
     }
 
-    public synchronized void returnBook(String memberId, String isbn) {
-        Member member = getMember(memberId);
-        Book book = getBook(isbn);
-
-        if (member != null && book != null) {
-            member.returnBook(book);
-            book.setAvailable(true);
-            System.out.println("Book returned: " + book.getTitle() + " by " + member.getName());
-        } else {
-            System.out.println("Book or member not found.");
+    public void returnBook(String memberId, String isbn) {
+        Member member = members.get(memberId);
+        Book book = catalog.get(isbn);
+        if (member == null || book == null) {
+            System.out.println("Cannot return book.");
+            return;
         }
+        member.borrowed().remove(book);
+        book.setAvailable(true);
+        System.out.println("Returned: " + book.title() + " by " + member.name());
     }
 
     public List<Book> searchBooks(String keyword) {
-        List<Book> matchingBooks = new ArrayList<>();
-        for (Book book : catalog.values()) {
-            if (book.getTitle().contains(keyword) || book.getAuthor().contains(keyword)) {
-                matchingBooks.add(book);
-            }
-        }
-        return matchingBooks;
+        return catalog.values().stream()
+                .filter(b -> b.title().contains(keyword) || b.author().contains(keyword))
+                .toList();
     }
 }

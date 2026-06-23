@@ -12,54 +12,41 @@ import com.hs.scoreupdater.BowlingScoreUpdater;
 import com.hs.scoreupdater.ScoreUpdaterObserver;
 
 public class BallDetails {
-	private int ballNumber;
-	private BallType ballType;
-	private RunType runType;
-	private PlayerDetails playedBy;
-	private PlayerDetails bowledBy;
-	private Wicket wicket;
-	List<ScoreUpdaterObserver> scoreUpdaterObserverList = new ArrayList<>();
+	public int ballNumber;
+	public BallType ballType;
+	public RunType runType;
+	public PlayerDetails playedBy;
+	public PlayerDetails bowledBy;
+	public Wicket wicket;
+	List<ScoreUpdaterObserver> scoreUpdaters = new ArrayList<>();
 
 	public BallDetails(int ballNumber) {
 		this.ballNumber = ballNumber;
-		scoreUpdaterObserverList.add(new BowlingScoreUpdater());
-		scoreUpdaterObserverList.add(new BattingScoreUpdater());
+		scoreUpdaters.add(new BowlingScoreUpdater());
+		scoreUpdaters.add(new BattingScoreUpdater());
 	}
 
 	public void startBallDelivery(Team battingTeam, Team bowlingTeam, OverDetails over) {
-
-		playedBy = battingTeam.getStriker();
-		this.bowledBy = over.bowledBy;
-		// THROW BALL AND GET THE BALL TYPE, assuming here that ball type is always
-		// NORMAL
+		playedBy = battingTeam.striker;
+		bowledBy = over.bowledBy;
 		ballType = BallType.NORMAL;
 
-		// wicket or no wicket
 		if (isWicketTaken()) {
 			runType = RunType.ZERO;
-			// considering only BOLD
-			wicket = new Wicket(WicketType.BOLD, bowlingTeam.getCurrentBowler(), over, this);
-			// making only striker out for now
-			battingTeam.setStriker(null);
+			wicket = new Wicket(WicketType.BOLD, bowlingTeam.currentBowler, over, this);
+			battingTeam.striker = null;
 		} else {
 			runType = getRunType();
 
 			if (runType == RunType.ONE || runType == RunType.THREE) {
-				// swap striket and non striker
-				PlayerDetails temp = battingTeam.getStriker();
-				battingTeam.setStriker(battingTeam.getNonStriker());
-				battingTeam.setNonStriker(temp);
+				PlayerDetails temp = battingTeam.striker;
+				battingTeam.striker = battingTeam.nonStriker;
+				battingTeam.nonStriker = temp;
 			}
 		}
 
-		// update player scoreboard
-		notifyUpdaters(this);
-	}
-
-	private void notifyUpdaters(BallDetails ballDetails) {
-
-		for (ScoreUpdaterObserver observer : scoreUpdaterObserverList) {
-			observer.update(ballDetails);
+		for (ScoreUpdaterObserver observer : scoreUpdaters) {
+			observer.update(this);
 		}
 	}
 
@@ -77,64 +64,6 @@ public class BallDetails {
 	}
 
 	private boolean isWicketTaken() {
-		// random function return value between 0 and 1
-		if (Math.random() < 0.2) {
-			return true;
-		} else {
-			return false;
-		}
+		return Math.random() < 0.2;
 	}
-
-	public int getBallNumber() {
-		return ballNumber;
-	}
-
-	public void setBallNumber(int ballNumber) {
-		this.ballNumber = ballNumber;
-	}
-
-	public BallType getBallType() {
-		return ballType;
-	}
-
-	public void setBallType(BallType ballType) {
-		this.ballType = ballType;
-	}
-
-	public PlayerDetails getPlayedBy() {
-		return playedBy;
-	}
-
-	public void setPlayedBy(PlayerDetails playedBy) {
-		this.playedBy = playedBy;
-	}
-
-	public PlayerDetails getBowledBy() {
-		return bowledBy;
-	}
-
-	public void setBowledBy(PlayerDetails bowledBy) {
-		this.bowledBy = bowledBy;
-	}
-
-	public Wicket getWicket() {
-		return wicket;
-	}
-
-	public void setWicket(Wicket wicket) {
-		this.wicket = wicket;
-	}
-
-	public List<ScoreUpdaterObserver> getScoreUpdaterObserverList() {
-		return scoreUpdaterObserverList;
-	}
-
-	public void setScoreUpdaterObserverList(List<ScoreUpdaterObserver> scoreUpdaterObserverList) {
-		this.scoreUpdaterObserverList = scoreUpdaterObserverList;
-	}
-
-	public void setRunType(RunType runType) {
-		this.runType = runType;
-	}
-
 }

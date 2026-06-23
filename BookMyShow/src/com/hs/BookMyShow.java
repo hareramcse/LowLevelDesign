@@ -5,17 +5,11 @@ import java.util.List;
 import java.util.UUID;
 
 public class BookMyShow {
-	private List<User> users;
-	private List<Movie> movies;
 	private List<Theater> theaters;
-	private List<Booking> bookings;
 	private static BookMyShow instance;
 
 	private BookMyShow() {
-		users = new ArrayList<>();
-		movies = new ArrayList<>();
 		theaters = new ArrayList<>();
-		bookings = new ArrayList<>();
 	}
 
 	public static synchronized BookMyShow getInstance() {
@@ -25,20 +19,8 @@ public class BookMyShow {
 		return instance;
 	}
 
-	public void addUser(User user) {
-		users.add(user);
-	}
-
-	public void addMovie(Movie movie) {
-		movies.add(movie);
-	}
-
 	public void addTheater(Theater theater) {
 		theaters.add(theater);
-	}
-
-	public void addBooking(Booking booking) {
-		bookings.add(booking);
 	}
 
 	public Payment makePayment(PaymentMethod paymentMethod, double amount) {

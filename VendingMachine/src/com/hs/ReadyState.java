@@ -1,44 +1,42 @@
 package com.hs;
 
-public class ReadyState implements VendingMachineState {
-	private VendingMachine vendingMachine;
-
-	public ReadyState(VendingMachine vendingMachine) {
-		this.vendingMachine = vendingMachine;
+class ReadyState extends VendingMachineState {
+	ReadyState(VendingMachine vm) {
+		super(vm);
 	}
 
 	@Override
 	public void selectProduct(Product product) {
-		System.out.println("Product already selected. Please make payment.");
+		reject("Product already selected. Please make payment.");
 	}
 
 	@Override
 	public void insertCoin(Coin coin) {
-		vendingMachine.addCoin(coin);
+		vm.addCoin(coin);
 		System.out.println("Coin inserted: " + coin);
-		checkPaymentStatus();
+		checkPayment();
 	}
 
 	@Override
 	public void insertNote(Note note) {
-		vendingMachine.addNote(note);
+		vm.addNote(note);
 		System.out.println("Note inserted: " + note);
-		checkPaymentStatus();
+		checkPayment();
 	}
 
 	@Override
 	public void dispenseProduct() {
-		System.out.println("Please make payment first.");
+		reject("Please make payment first.");
 	}
 
 	@Override
 	public void returnChange() {
-		System.out.println("Please make payment first.");
+		reject("Please make payment first.");
 	}
 
-	private void checkPaymentStatus() {
-		if (vendingMachine.getTotalPayment() >= vendingMachine.getSelectedProduct().getPrice()) {
-			vendingMachine.setState(vendingMachine.getDispenseState());
+	private void checkPayment() {
+		if (vm.getTotalPayment() >= vm.getSelectedProduct().getPrice()) {
+			vm.setState(vm.getDispenseState());
 		}
 	}
 }
