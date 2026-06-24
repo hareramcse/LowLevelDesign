@@ -4,7 +4,7 @@
 
 | # | Project | Why it matters | Patterns / focus |
 |---|---------|----------------|------------------|
-| 1 | [CarParking](./CarParking/) | Asked almost everywhere | Slots, tickets, allocation |
+| 1 | [CarParking](./CarParking/) | Asked almost everywhere | Multi-floor, spot types, ticket, pricing |
 | 2 | [VendingMachine](./VendingMachine/) | Classic state-machine question | State, Singleton |
 | 3 | [ElevatorDesign](./ElevatorDesign/) | Scheduling & request handling | Direction, floor queue |
 | 4 | [RateLimiter](./RateLimiter/) | Very common at big tech | Token bucket, sliding window |

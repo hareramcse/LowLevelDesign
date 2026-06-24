@@ -1,4 +1,4 @@
 package com.hs;
 
-public record Vehicle(String licensePlate, String type, int size) {
+public record Vehicle(String licensePlate, VehicleType vehicleType) {
 }

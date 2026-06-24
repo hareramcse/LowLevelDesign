@@ -1,21 +1,39 @@
 package com.hs;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ParkingTicket {
+	private final String ticketId;
 	private final Vehicle vehicle;
-	private final List<ParkingSlot> parkingSlots;
+	private final List<ParkingSpot> spots;
+	private final LocalDateTime entryTime;
 
-	public ParkingTicket(Vehicle vehicle, List<ParkingSlot> parkingSlots) {
+	public ParkingTicket(String ticketId, Vehicle vehicle, List<ParkingSpot> spots, LocalDateTime entryTime) {
+		this.ticketId = ticketId;
 		this.vehicle = vehicle;
-		this.parkingSlots = parkingSlots;
+		this.spots = spots;
+		this.entryTime = entryTime;
 	}
 
-	public Vehicle getVehicle() {
+	public String ticketId() {
+		return ticketId;
+	}
+
+	public Vehicle vehicle() {
 		return vehicle;
 	}
 
-	public List<ParkingSlot> getParkingSlots() {
-		return parkingSlots;
+	public List<ParkingSpot> spots() {
+		return spots;
+	}
+
+	public LocalDateTime entryTime() {
+		return entryTime;
+	}
+
+	@Override
+	public String toString() {
+		return "Ticket " + ticketId + " | " + vehicle.licensePlate() + " | spots=" + spots + " | entry=" + entryTime;
 	}
 }

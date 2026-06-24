@@ -1,17 +1,23 @@
 package com.hs;
 
+import java.util.Optional;
+
 public class ParkingAttendant {
-	private ParkingSystem parkingSystem;
+	private final ParkingLot parkingLot;
 
-	public ParkingAttendant(ParkingSystem parkingSystem) {
-		this.parkingSystem = parkingSystem;
+	public ParkingAttendant(ParkingLot parkingLot) {
+		this.parkingLot = parkingLot;
 	}
 
-	public ParkingTicket parkVehicle(Vehicle vehicle) {
-		return parkingSystem.parkVehicle(vehicle);
+	public Optional<ParkingTicket> parkVehicle(Vehicle vehicle) {
+		return parkingLot.park(vehicle);
 	}
 
-	public Vehicle retrieveVehicle(String licensePlate) {
-		return parkingSystem.retrieveVehicle(licensePlate);
+	public Optional<ExitReceipt> exit(String ticketId) {
+		return parkingLot.exit(ticketId);
+	}
+
+	public int availableSpots(int floorNumber, SpotType type) {
+		return parkingLot.countAvailable(floorNumber, type);
 	}
 }
