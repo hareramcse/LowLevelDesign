@@ -2,26 +2,26 @@
 
 ## Projects (priority order)
 
-| # | Project | Why it matters | Patterns / focus |
-|---|---------|----------------|------------------|
-| 1 | [CarParking](./CarParking/) | Asked almost everywhere | Multi-floor, spot types, ticket, pricing |
-| 2 | [VendingMachine](./VendingMachine/) | Classic state-machine question | State, change maker, cancel |
-| 3 | [ElevatorDesign](./ElevatorDesign/) | Scheduling & request handling | Direction, floor queue |
-| 4 | [RateLimiter](./RateLimiter/) | Very common at big tech | Token bucket, sliding window |
-| 5 | [BookMyShow](./BookMyShow/) | Seat booking, double-booking risk | Singleton, Observer |
-| 6 | [Splitwise](./Splitwise/) | Expense split & settle balances | Strategy (equal/exact) |
-| 7 | [FoodDelivery](./FoodDelivery/) | Swiggy/Zomato-style flow | Observer, order status |
-| 8 | [LoggingFramework](./LoggingFramework/) | “Design a logger” classic | Strategy (appenders), levels |
-| 9 | [PubSubSystem](./PubSubSystem/) | Messaging backbone | Broker, topics, subscribers |
-| 10 | [HotelBooking](./HotelBooking/) | OYO/booking variant | Date overlap, room types |
-| 11 | [MeetingScheduler](./MeetingScheduler/) | Calendar & conflicts | Room + attendee overlap |
-| 12 | [ATM](./ATM/) | State pair with VendingMachine | State, note dispensing |
-| 13 | [LibraryManagement](./LibraryManagement/) | Clean OOP & business rules | Catalog, borrow limits |
-| 14 | [StackOverflow](./StackOverflow/) | Q&A, voting, search | Tags, reputation |
-| 15 | [TaskManagementSystem](./TaskManagementSystem/) | Jira/Todo-style | CRUD, filter, status |
-| 16 | [UrlShortener](./UrlShortener/) | Sometimes LLD, often HLD intro | Singleton, Base62 |
-| 17 | [CarRentalSystem](./CarRentalSystem/) | Fleet rental / Zoomcar-style | Reservation, overlap, pricing |
-| 18 | [ChessGame](./ChessGame/) | Game design (senior roles) | Board, PieceType enum |
-| 19 | [TicTacToe](./TicTacToe/) | Simpler game warmup | 2-player, win check |
-| 20 | [CricBuzz](./CricBuzz/) | Observer practice | Match, score updates |
-| 21 | [SnakeLadder](./SnakeLadder/) | Board simulation | Dice, snakes, ladders |
+| # | Project | Why it matters | Patterns / focus | What to code / flow |
+|---|---------|----------------|------------------|---------------------|
+| 1 | [CarParking](./CarParking/) | Asked almost everywhere | Multi-floor, spot types, ticket, pricing | **Flow:** `park(vehicle)` → ticket → `exit(ticket)` → fee. **Code:** `ParkingLot`, `Floor`, `ParkingSpot`, `findAndReserve()`, `PricingStrategy`. **Must nail:** vehicle type must match spot type; truck needs 2 contiguous large spots — wrong match or double-book is the usual fail point. |
+| 2 | [VendingMachine](./VendingMachine/) | Classic state-machine question | State, change maker, cancel | **Flow:** Idle → select product → pay → dispense → return change → Idle. **Code:** state classes, `selectProduct`, `insertCoin`/`insertNote`, `ChangeMaker`, `CashInventory`. **Must nail:** every action only in valid state; reject vend if machine cannot make change before accepting payment. |
+| 3 | [ElevatorDesign](./ElevatorDesign/) | Scheduling & request handling | Direction, floor queue | **Flow:** request floor → elevator picks direction → stop at floors in order → idle. **Code:** `Elevator`, request queue, `move()` / `addRequest()`. **Must nail:** SCAN or LOOK direction logic — don't reverse mid-trip for a far request behind you unless you define that rule clearly. |
+| 4 | [RateLimiter](./RateLimiter/) | Very common at big tech | Token bucket, sliding window | **Flow:** `allowRequest(key)` → true/false. **Code:** `RateLimiter` interface + token bucket or sliding window impl, per-key map. **Must nail:** thread-safe `allowRequest`; sliding window = prune old timestamps, not just a naive counter. |
+| 5 | [BookMyShow](./BookMyShow/) | Seat booking, double-booking risk | Singleton, Observer | **Flow:** pick show → select seats → lock/book → notify waitlist. **Code:** `Theatre`, `Screen`, `Seat` (status), `BookingService.book()`. **Must nail:** synchronized or lock on seat — two users cannot book the same seat; say how you prevent double booking. |
+| 6 | [Splitwise](./Splitwise/) | Expense split & settle balances | Strategy (equal/exact) | **Flow:** add expense → split among users → show balances → settle. **Code:** `Expense`, split `Strategy`, `User` balance map, `addExpense` / `getBalance`. **Must nail:** balances must net to zero after split; exact split must sum to total amount. |
+| 7 | [FoodDelivery](./FoodDelivery/) | Swiggy/Zomato-style flow | Observer, order status | **Flow:** place order → restaurant accepts → out for delivery → delivered. **Code:** `Order`, status enum, `Restaurant`, Observer on status change. **Must nail:** valid status transitions only (no Delivered → Placed); notify observers on each change. |
+| 8 | [LoggingFramework](./LoggingFramework/) | “Design a logger” classic | Strategy (appenders), levels | **Flow:** `log(level, message)` → filter by level → format → append. **Code:** `Logger`, `LogLevel`, `Appender` (console/file), `Formatter`. **Must nail:** level hierarchy (DEBUG < INFO < …); appender chosen by config/strategy, not hard-coded in Logger. |
+| 9 | [PubSubSystem](./PubSubSystem/) | Messaging backbone | Broker, topics, subscribers | **Flow:** subscribe(topic) → publish(message) → all subscribers notified. **Code:** `Broker`, `Topic`, `Subscriber`, `publish`/`subscribe`. **Must nail:** one publish fans out to all subscribers of that topic; handle unsubscribe without breaking others. |
+| 10 | [HotelBooking](./HotelBooking/) | OYO/booking variant | Date overlap, room types | **Flow:** search rooms by dates → book → cancel. **Code:** `Room`, `Booking`, `isAvailable(from, to)`, overlap check. **Must nail:** date-range overlap logic — same room cannot have overlapping bookings; same pattern as CarRental. |
+| 11 | [MeetingScheduler](./MeetingScheduler/) | Calendar & conflicts | Room + attendee overlap | **Flow:** schedule meeting → check room + attendees free → save. **Code:** `Meeting`, `Room`, `User` calendar, `conflictsWith()`. **Must nail:** reject if room OR any attendee has overlapping meeting in that slot. |
+| 12 | [ATM](./ATM/) | State pair with VendingMachine | State, note dispensing | **Flow:** insert card → PIN → select amount → dispense notes → eject card. **Code:** states (idle, has card, …), `CashDispenser`, account debit. **Must nail:** dispense only if enough notes in ATM; state rejects invalid ops (withdraw without PIN). |
+| 13 | [LibraryManagement](./LibraryManagement/) | Clean OOP & business rules | Catalog, borrow limits | **Flow:** search book → borrow → return → fine if late. **Code:** `Book`, `Member`, `Library`, borrow/return with due date. **Must nail:** borrow limit per member and one copy per book — cannot borrow already-issued book. |
+| 14 | [StackOverflow](./StackOverflow/) | Q&A, voting, search | Tags, reputation | **Flow:** post question → answers → vote → accept answer. **Code:** `Question`, `Answer`, `User` reputation, tag list, vote up/down. **Must nail:** vote updates reputation; only question author accepts one answer. |
+| 15 | [TaskManagementSystem](./TaskManagementSystem/) | Jira/Todo-style | CRUD, filter, status | **Flow:** create task → assign → update status → filter by user/status. **Code:** `Task`, `User`, `TaskService` CRUD + filters. **Must nail:** clear status enum and assignment; filter/search without loading everything twice if asked at scale. |
+| 16 | [UrlShortener](./UrlShortener/) | Sometimes LLD, often HLD intro | Singleton, Base62 | **Flow:** `shorten(longUrl)` → code → `resolve(code)` → long URL. **Code:** encode/decode (Base62), in-memory or DB map, collision handling. **Must nail:** bijection — same long URL can reuse code OR always new (state your rule); resolve must be O(1). |
+| 17 | [CarRentalSystem](./CarRentalSystem/) | Fleet rental / Zoomcar-style | Reservation, overlap, pricing | **Flow:** `searchAvailable` → `reserve(dates)` → pay → `returnRental` → late fee. **Code:** `Rental`, `overlaps()`, `PricingStrategy`, `RentalSystem.reserve`/`return`. **Must nail:** availability = no overlapping rental on same vehicle; price uses vehicle rate × days, not a flat constant. |
+| 18 | [ChessGame](./ChessGame/) | Game design (senior roles) | Board, PieceType enum | **Flow:** move piece → validate → update board → check/checkmate. **Code:** `Board`, `Piece`/`PieceType`, `move(from, to)`, turn alternation. **Must nail:** legal move per piece type + cannot leave own king in check; mention castling/en passant only if time allows. |
+| 19 | [TicTacToe](./TicTacToe/) | Simpler game warmup | 2-player, win check | **Flow:** place mark → switch player → check win/draw. **Code:** `Board` 3×3, `Player`, `makeMove`, `checkWinner`. **Must nail:** reject move on occupied cell; detect row/col/diagonal win after each move. |
+| 20 | [CricBuzz](./CricBuzz/) | Observer practice | Match, score updates | **Flow:** ball event → update score → notify subscribers. **Code:** `Match`, `Score`, `Observer`/`Subscriber`, `notifyScoreUpdate`. **Must nail:** observers get consistent score snapshot; runs/wickets update rules are explicit. |
+| 21 | [SnakeLadder](./SnakeLadder/) | Board simulation | Dice, snakes, ladders | **Flow:** roll dice → move → snake/ladder jump → next player → win at 100. **Code:** `Board`, snake/ladder map, `playTurn`, win check. **Must nail:** after move, apply snake or ladder once; exact 100 to win (optional: overshoot rule — state it). |
