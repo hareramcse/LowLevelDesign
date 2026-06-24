@@ -6,30 +6,15 @@ class DispenseState extends VendingMachineState {
 	}
 
 	@Override
-	public void selectProduct(Product product) {
-		reject("Product already selected. Please collect the dispensed product.");
-	}
-
-	@Override
-	public void insertCoin(Coin coin) {
-		reject("Payment already made. Please collect the dispensed product.");
-	}
-
-	@Override
-	public void insertNote(Note note) {
-		reject("Payment already made. Please collect the dispensed product.");
-	}
-
-	@Override
 	public void dispenseProduct() {
 		Product product = vm.getSelectedProduct();
-		vm.inventory.updateQuantity(product, vm.inventory.getQuantity(product) - 1);
-		System.out.println("Product dispensed: " + product.getName());
+		vm.inventory().decrement(product);
+		System.out.println("Dispensed: " + product.name());
 		vm.setState(vm.getReturnChangeState());
 	}
 
 	@Override
-	public void returnChange() {
-		reject("Please collect the dispensed product first.");
+	public void cancel() {
+		reject("Payment collected. Dispense product or contact support.");
 	}
 }

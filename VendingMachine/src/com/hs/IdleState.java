@@ -6,14 +6,16 @@ class IdleState extends VendingMachineState {
 	}
 
 	@Override
-	public void selectProduct(Product product) {
-		if (!vm.inventory.isAvailable(product)) {
-			reject("Product not available: " + product.getName());
-			return;
-		}
-		vm.setSelectedProduct(product);
-		vm.setState(vm.getReadyState());
-		System.out.println("Product selected: " + product.getName());
+	public void selectProduct(String productCode) {
+		vm.inventory().findByCode(productCode).ifPresentOrElse(product -> {
+			if (!vm.inventory().isAvailable(product)) {
+				reject("Out of stock: " + product.name());
+				return;
+			}
+			vm.startTransaction(product);
+			vm.setState(vm.getReadyState());
+			System.out.println("Selected: " + product.name() + " ($" + product.price() + ")");
+		}, () -> reject("Unknown product code: " + productCode));
 	}
 
 	@Override
@@ -24,15 +26,5 @@ class IdleState extends VendingMachineState {
 	@Override
 	public void insertNote(Note note) {
 		reject("Please select a product first.");
-	}
-
-	@Override
-	public void dispenseProduct() {
-		reject("Please select a product and make payment.");
-	}
-
-	@Override
-	public void returnChange() {
-		reject("No change to return.");
 	}
 }

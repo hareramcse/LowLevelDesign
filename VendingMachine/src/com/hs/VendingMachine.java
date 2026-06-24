@@ -1,17 +1,18 @@
 package com.hs;
 
+import java.util.UUID;
+
 public class VendingMachine {
-	private static VendingMachine instance;
-	final Inventory inventory = new Inventory();
+	private final Inventory inventory = new Inventory();
+	private final CashInventory cashInventory = new CashInventory();
 	private final VendingMachineState idleState;
 	private final VendingMachineState readyState;
 	private final VendingMachineState dispenseState;
 	private final VendingMachineState returnChangeState;
 	private VendingMachineState currentState;
-	private Product selectedProduct;
-	private double totalPayment;
+	private VendTransaction currentTransaction;
 
-	private VendingMachine() {
+	public VendingMachine() {
 		idleState = new IdleState(this);
 		readyState = new ReadyState(this);
 		dispenseState = new DispenseState(this);
@@ -19,31 +20,36 @@ public class VendingMachine {
 		currentState = idleState;
 	}
 
-	public static synchronized VendingMachine getInstance() {
-		if (instance == null) {
-			instance = new VendingMachine();
-		}
-		return instance;
+	public Inventory inventory() {
+		return inventory;
 	}
 
-	public void selectProduct(Product product) {
-		currentState.selectProduct(product);
+	public CashInventory cashInventory() {
+		return cashInventory;
 	}
 
-	public void insertCoin(Coin coin) {
+	public synchronized void selectProduct(String productCode) {
+		currentState.selectProduct(productCode);
+	}
+
+	public synchronized void insertCoin(Coin coin) {
 		currentState.insertCoin(coin);
 	}
 
-	public void insertNote(Note note) {
+	public synchronized void insertNote(Note note) {
 		currentState.insertNote(note);
 	}
 
-	public void dispenseProduct() {
+	public synchronized void dispenseProduct() {
 		currentState.dispenseProduct();
 	}
 
-	public void returnChange() {
+	public synchronized void returnChange() {
 		currentState.returnChange();
+	}
+
+	public synchronized void cancel() {
+		currentState.cancel();
 	}
 
 	void setState(VendingMachineState state) {
@@ -66,31 +72,40 @@ public class VendingMachine {
 		return returnChangeState;
 	}
 
-	Product getSelectedProduct() {
-		return selectedProduct;
+	VendTransaction getCurrentTransaction() {
+		return currentTransaction;
 	}
 
-	void setSelectedProduct(Product product) {
-		selectedProduct = product;
+	void startTransaction(Product product) {
+		currentTransaction = new VendTransaction(UUID.randomUUID().toString(), product);
 	}
 
-	void resetSelectedProduct() {
-		selectedProduct = null;
+	void clearTransaction() {
+		currentTransaction = null;
+	}
+
+	void addPayment(Coin coin) {
+		currentTransaction.addPayment(coin.getValue());
+		cashInventory.accept(coin);
+	}
+
+	void addPayment(Note note) {
+		currentTransaction.addPayment(note.getValue());
 	}
 
 	double getTotalPayment() {
-		return totalPayment;
+		return currentTransaction == null ? 0 : currentTransaction.amountPaid();
 	}
 
-	void addCoin(Coin coin) {
-		totalPayment += coin.getValue();
+	Product getSelectedProduct() {
+		return currentTransaction == null ? null : currentTransaction.product();
 	}
 
-	void addNote(Note note) {
-		totalPayment += note.getValue();
-	}
-
-	void resetPayment() {
-		totalPayment = 0.0;
+	protected void returnToIdle() {
+		if (currentTransaction != null) {
+			currentTransaction.complete();
+		}
+		clearTransaction();
+		setState(getIdleState());
 	}
 }

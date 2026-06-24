@@ -7,17 +7,11 @@ public abstract class VendingMachineState {
 		this.vm = vm;
 	}
 
-	protected void returnToIdle() {
-		vm.resetPayment();
-		vm.resetSelectedProduct();
-		vm.setState(vm.getIdleState());
-	}
-
 	protected void reject(String message) {
 		System.out.println(message);
 	}
 
-	public void selectProduct(Product product) {
+	public void selectProduct(String productCode) {
 		reject("Invalid action in current state.");
 	}
 
@@ -35,5 +29,9 @@ public abstract class VendingMachineState {
 
 	public void returnChange() {
 		reject("Invalid action in current state.");
+	}
+
+	public void cancel() {
+		reject("Cannot cancel in current state.");
 	}
 }

@@ -5,7 +5,7 @@
 | # | Project | Why it matters | Patterns / focus |
 |---|---------|----------------|------------------|
 | 1 | [CarParking](./CarParking/) | Asked almost everywhere | Multi-floor, spot types, ticket, pricing |
-| 2 | [VendingMachine](./VendingMachine/) | Classic state-machine question | State, Singleton |
+| 2 | [VendingMachine](./VendingMachine/) | Classic state-machine question | State, change maker, cancel |
 | 3 | [ElevatorDesign](./ElevatorDesign/) | Scheduling & request handling | Direction, floor queue |
 | 4 | [RateLimiter](./RateLimiter/) | Very common at big tech | Token bucket, sliding window |
 | 5 | [BookMyShow](./BookMyShow/) | Seat booking, double-booking risk | Singleton, Observer |
