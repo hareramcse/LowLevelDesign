@@ -20,7 +20,7 @@
 | 14 | [StackOverflow](./StackOverflow/) | Q&A, voting, search | Tags, reputation |
 | 15 | [TaskManagementSystem](./TaskManagementSystem/) | Jira/Todo-style | CRUD, filter, status |
 | 16 | [UrlShortener](./UrlShortener/) | Sometimes LLD, often HLD intro | Singleton, Base62 |
-| 17 | [CarRentalSystem](./CarRentalSystem/) | Rental/inventory variant | Strategy (pricing) |
+| 17 | [CarRentalSystem](./CarRentalSystem/) | Fleet rental / Zoomcar-style | Reservation, overlap, pricing |
 | 18 | [ChessGame](./ChessGame/) | Game design (senior roles) | Board, PieceType enum |
 | 19 | [TicTacToe](./TicTacToe/) | Simpler game warmup | 2-player, win check |
 | 20 | [CricBuzz](./CricBuzz/) | Observer practice | Match, score updates |

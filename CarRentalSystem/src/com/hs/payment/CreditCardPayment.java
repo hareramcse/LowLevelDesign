@@ -1,4 +1,4 @@
-package com.hs.payement;
+package com.hs.payment;
 
 public class CreditCardPayment implements PaymentMethod {
 	private final String cardNumber;
@@ -13,8 +13,6 @@ public class CreditCardPayment implements PaymentMethod {
 
 	@Override
 	public void processPayment(double amount) {
-		// Process credit card payment logic
 		System.out.println("Processing credit card payment of $" + amount);
-		// Additional logic can be added here, such as connecting to a payment gateway
 	}
 }
